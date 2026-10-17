@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
-    final UserDao userDao;
+public class UserAccountServiceImpl implements UserAccountService {
+    final UserAccountDao userAccountDao;
 
     @Override
     @Transactional
-    public User save(User user) {
-        return userDao.save(user);
+    public UserAccount save(UserAccount user) {
+        return userAccountDao.save(user);
     }
 
     @Override
     @Transactional
-    public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+    public UserAccount findByUsername(String username) {
+        return userAccountDao.findByUsername(username);
     }
 }

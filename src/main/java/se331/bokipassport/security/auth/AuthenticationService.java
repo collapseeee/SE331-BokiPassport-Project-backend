@@ -14,8 +14,8 @@ import se331.bokipassport.security.token.Token;
 import se331.bokipassport.security.token.TokenRepository;
 import se331.bokipassport.security.token.TokenType;
 import se331.bokipassport.security.user.Role;
-import se331.bokipassport.security.user.User;
-import se331.bokipassport.security.user.UserRepository;
+import se331.bokipassport.security.user.UserAccount;
+import se331.bokipassport.security.user.UserAccountRepository;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-  private final UserRepository repository;
+  private final UserAccountRepository repository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -32,7 +32,7 @@ public class AuthenticationService {
   private final JsonMapper jsonMapper;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    User user = User.builder()
+    UserAccount user = UserAccount.builder()
             .username(request.getUsername())
             .firstname(request.getFirstname())
             .lastname(request.getLastname())
@@ -58,7 +58,7 @@ public class AuthenticationService {
                     request.getPassword()
             )
     );
-    User user = repository.findByUsername(request.getUsername())
+    UserAccount user = repository.findByUsername(request.getUsername())
             .orElseThrow();
 
     String jwtToken = jwtService.generateToken(user);
@@ -71,7 +71,7 @@ public class AuthenticationService {
             .build();
   }
 
-  private void saveUserToken(User user, String jwtToken) {
+  private void saveUserToken(UserAccount user, String jwtToken) {
     Token token = Token.builder()
             .user(user)
             .token(jwtToken)
@@ -82,7 +82,7 @@ public class AuthenticationService {
     tokenRepository.save(token);
   }
 
-  private void revokeAllUserTokens(User user) {
+  private void revokeAllUserTokens(UserAccount user) {
     List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
     if (validUserTokens.isEmpty())
       return;
@@ -106,7 +106,7 @@ public class AuthenticationService {
     refreshToken = authHeader.substring(7);
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
-      User user = this.repository.findByUsername(userEmail)
+      UserAccount user = this.repository.findByUsername(userEmail)
               .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
         String accessToken = jwtService.generateToken(user);

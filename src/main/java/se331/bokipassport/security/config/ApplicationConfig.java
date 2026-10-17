@@ -9,13 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import se331.bokipassport.security.user.UserRepository;
+import se331.bokipassport.security.user.UserAccountRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-  private final UserRepository repository;
+  private final UserAccountRepository repository;
 
   @Bean
   public UserDetailsService userDetailsService() {
