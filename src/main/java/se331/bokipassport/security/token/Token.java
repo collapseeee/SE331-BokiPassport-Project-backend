@@ -31,5 +31,5 @@ public class Token {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  public UserAccount user;
+  public UserAccount userAccount;
 }

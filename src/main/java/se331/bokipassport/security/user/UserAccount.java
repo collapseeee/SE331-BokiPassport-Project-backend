@@ -40,7 +40,7 @@ public class UserAccount implements UserDetails {
   @Builder.Default
   private List<Role> roles = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "userAccount")
   private List<Token> tokens;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
