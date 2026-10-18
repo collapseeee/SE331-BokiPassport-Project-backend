@@ -21,4 +21,7 @@ public class Level {
 
     @OneToMany(mappedBy = "level")
     List<Course> courses;
+
+    @ManyToMany
+    List<User> users;
 }

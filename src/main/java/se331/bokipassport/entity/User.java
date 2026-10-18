@@ -27,6 +27,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Badge> badges;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "users")
     List<Level> levels;
 }

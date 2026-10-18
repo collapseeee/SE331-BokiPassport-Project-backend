@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se331.bokipassport.entity.User;
+import se331.bokipassport.repository.UserRepository;
 import se331.bokipassport.security.config.JwtService;
 import se331.bokipassport.security.token.Token;
 import se331.bokipassport.security.token.TokenRepository;
@@ -24,6 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+  private final UserRepository userRepository;
   private final UserAccountRepository repository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
@@ -32,11 +35,14 @@ public class AuthenticationService {
   private final JsonMapper jsonMapper;
 
   public AuthenticationResponse register(RegisterRequest request) {
+    User user = userRepository.save(User.builder()
+            .firstName(request.getFirstName())
+            .lastName(request.getLastName())
+            .province(request.getProvince())
+            .build());
     UserAccount userAccount = UserAccount.builder()
+            .profile(user)
             .username(request.getUsername())
-            .firstname(request.getFirstname())
-            .lastname(request.getLastname())
-            .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(List.of(Role.ROLE_USER))
             .enabled(true)
@@ -47,7 +53,7 @@ public class AuthenticationService {
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
         .build();
   }
 
