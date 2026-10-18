@@ -1,4 +1,7 @@
 package se331.bokipassport.repository;
 
-public interface BenefitRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import se331.bokipassport.entity.Benefit;
+
+public interface BenefitRepository extends JpaRepository<Benefit, Long> {
 }

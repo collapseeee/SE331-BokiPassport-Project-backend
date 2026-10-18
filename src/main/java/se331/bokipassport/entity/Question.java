@@ -17,6 +17,9 @@ public class Question {
     Long id;
     String questionText;
 
+    @ManyToOne
+    Exam exam;
+
     @OneToMany(mappedBy = "question")
     List<Answer> answerList;
 

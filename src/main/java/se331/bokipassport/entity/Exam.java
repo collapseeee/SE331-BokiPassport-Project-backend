@@ -21,6 +21,9 @@ public class Exam {
     @OneToOne
     Level level;
 
-    @OneToMany(mappedBy = "examList")
+    @OneToMany(mappedBy = "exam")
     List<UserExamHistory> examHistories;
+
+    @OneToMany(mappedBy = "exam")
+    List<Question> questions;
 }

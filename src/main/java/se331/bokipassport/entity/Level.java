@@ -21,7 +21,9 @@ public class Level {
 
     @OneToMany(mappedBy = "level")
     List<Course> courses;
-
+    @OneToMany(mappedBy = "level")
+    List<Benefit> benefits;
     @ManyToMany
     List<User> users;
+
 }

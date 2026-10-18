@@ -23,9 +23,9 @@ public class UserExamHistory {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    User userList;
+    User user;
 
     @ManyToOne
     @JoinColumn(name = "exam_id", nullable = false)
-    Exam examList;
+    Exam exam;
 }

@@ -1,9 +1,6 @@
 package se331.bokipassport.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -17,4 +14,7 @@ public class Benefit {
     @EqualsAndHashCode.Exclude
     Long id;
     String description;
+
+    @ManyToOne
+    Level level;
 }

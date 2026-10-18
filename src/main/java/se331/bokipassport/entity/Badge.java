@@ -3,6 +3,8 @@ package se331.bokipassport.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Builder
 @Entity
@@ -16,6 +18,6 @@ public class Badge {
     String name;
     String description;
 
-    @ManyToOne
-    User user;
+    @ManyToMany(mappedBy = "badges")
+    List<User> users;
 }

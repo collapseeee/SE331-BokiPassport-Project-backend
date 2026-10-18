@@ -21,12 +21,12 @@ public class User {
     String province;
     String image;
 
-    @OneToMany(mappedBy = "userList")
+    @OneToMany(mappedBy = "user")
     List<UserExamHistory> userExamHistories;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany
     List<Badge> badges;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany
     List<Level> levels;
 }
