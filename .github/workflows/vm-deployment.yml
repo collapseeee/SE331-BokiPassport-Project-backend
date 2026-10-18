@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Set up QUMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
@@ -42,8 +42,8 @@ jobs:
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.HOST_SERVER }}
-          username: ${{ secret.HOST_USER_NAME }}
-          key: ${{ secret.HOST_SSH_PRIVATE_KEY }}
+          username: ${{ secrets.HOST_USER_NAME }}
+          key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
           source: "docker-compose-prod.yml"
           target: "backend"
           overwrite: true
