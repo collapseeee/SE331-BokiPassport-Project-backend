@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import se331.bokipassport.entity.User;
 import se331.bokipassport.security.token.Token;
 
 import java.util.ArrayList;
@@ -21,14 +22,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
-public class User implements UserDetails {
+public class UserAccount implements UserDetails {
 
   @Id
   @GeneratedValue
   private Integer id;
-  private String parentId;
-  private String firstname;
-  private String lastname;
   @Column(unique = true)
   private String username;
   private String email;
@@ -40,7 +38,10 @@ public class User implements UserDetails {
   @Builder.Default
   private List<Role> roles = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user")
+  @OneToOne
+  private User profile;
+
+  @OneToMany(mappedBy = "userAccount")
   private List<Token> tokens;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

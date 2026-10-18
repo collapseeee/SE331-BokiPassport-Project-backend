@@ -9,13 +9,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se331.bokipassport.entity.User;
+import se331.bokipassport.repository.UserRepository;
 import se331.bokipassport.security.config.JwtService;
 import se331.bokipassport.security.token.Token;
 import se331.bokipassport.security.token.TokenRepository;
 import se331.bokipassport.security.token.TokenType;
 import se331.bokipassport.security.user.Role;
-import se331.bokipassport.security.user.User;
-import se331.bokipassport.security.user.UserRepository;
+import se331.bokipassport.security.user.UserAccount;
+import se331.bokipassport.security.user.UserAccountRepository;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
@@ -24,7 +26,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-  private final UserRepository repository;
+  private final UserRepository userRepository;
+  private final UserAccountRepository repository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -32,22 +35,25 @@ public class AuthenticationService {
   private final JsonMapper jsonMapper;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    User user = User.builder()
+    User user = userRepository.save(User.builder()
+            .firstName(request.getFirstName())
+            .lastName(request.getLastName())
+            .province(request.getProvince())
+            .build());
+    UserAccount userAccount = UserAccount.builder()
+            .profile(user)
             .username(request.getUsername())
-            .firstname(request.getFirstname())
-            .lastname(request.getLastname())
-            .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
             .roles(List.of(Role.ROLE_USER))
             .enabled(true)
             .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    var savedUser = repository.save(userAccount);
+    var jwtToken = jwtService.generateToken(userAccount);
+    var refreshToken = jwtService.generateRefreshToken(userAccount);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+        .refreshToken(refreshToken)
         .build();
   }
 
@@ -58,22 +64,22 @@ public class AuthenticationService {
                     request.getPassword()
             )
     );
-    User user = repository.findByUsername(request.getUsername())
+    UserAccount userAccount = repository.findByUsername(request.getUsername())
             .orElseThrow();
 
-    String jwtToken = jwtService.generateToken(user);
-    String refreshToken = jwtService.generateRefreshToken(user);
+    String jwtToken = jwtService.generateToken(userAccount);
+    String refreshToken = jwtService.generateRefreshToken(userAccount);
 //    revokeAllUserTokens(user);
-    saveUserToken(user, jwtToken);
+    saveUserToken(userAccount, jwtToken);
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
             .build();
   }
 
-  private void saveUserToken(User user, String jwtToken) {
+  private void saveUserToken(UserAccount userAccount, String jwtToken) {
     Token token = Token.builder()
-            .user(user)
+            .userAccount(userAccount)
             .token(jwtToken)
             .tokenType(TokenType.BEARER)
             .expired(false)
@@ -82,8 +88,8 @@ public class AuthenticationService {
     tokenRepository.save(token);
   }
 
-  private void revokeAllUserTokens(User user) {
-    List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+  private void revokeAllUserTokens(UserAccount userAccount) {
+    List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(userAccount.getId());
     if (validUserTokens.isEmpty())
       return;
     validUserTokens.forEach(token -> {
@@ -106,12 +112,12 @@ public class AuthenticationService {
     refreshToken = authHeader.substring(7);
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
-      User user = this.repository.findByUsername(userEmail)
+      UserAccount userAccount = this.repository.findByUsername(userEmail)
               .orElseThrow();
-      if (jwtService.isTokenValid(refreshToken, user)) {
-        String accessToken = jwtService.generateToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, accessToken);
+      if (jwtService.isTokenValid(refreshToken, userAccount)) {
+        String accessToken = jwtService.generateToken(userAccount);
+        revokeAllUserTokens(userAccount);
+        saveUserToken(userAccount, accessToken);
         AuthenticationResponse authResponse = AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

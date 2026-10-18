@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    active:
+      - local
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: bokipassport
   mvc:

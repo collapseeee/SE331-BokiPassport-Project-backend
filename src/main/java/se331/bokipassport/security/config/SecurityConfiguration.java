@@ -22,7 +22,7 @@ public class SecurityConfiguration {
   private final LogoutHandler logoutHandler;
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
     http.headers(headers -> {
       headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);

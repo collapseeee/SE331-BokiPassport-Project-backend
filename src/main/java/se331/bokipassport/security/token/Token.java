@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se331.bokipassport.security.user.User;
+import se331.bokipassport.security.user.UserAccount;
 
 @Data
 @Builder
@@ -31,5 +31,5 @@ public class Token {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
-  public User user;
+  public UserAccount userAccount;
 }
