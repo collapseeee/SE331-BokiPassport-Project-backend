@@ -39,6 +39,7 @@ public class AuthenticationService {
             .firstName(request.getFirstName())
             .lastName(request.getLastName())
             .province(request.getProvince())
+            .image(request.getImage())
             .build());
     UserAccount userAccount = UserAccount.builder()
             .profile(user)
