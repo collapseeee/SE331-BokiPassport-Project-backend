@@ -15,4 +15,5 @@ public class RegisterRequest {
   private String province;
   private String username;
   private String password;
+  private String image;
 }
