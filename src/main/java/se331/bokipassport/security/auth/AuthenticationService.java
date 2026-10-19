@@ -35,7 +35,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final JsonMapper jsonMapper;
 
-  public AuthenticationResponse register(RegisterRequest request) {
+  public RegisterResponse register(RegisterRequest request) {
     User user = userRepository.save(User.builder()
             .firstName(request.getFirstName())
             .lastName(request.getLastName())
@@ -53,9 +53,10 @@ public class AuthenticationService {
     var jwtToken = jwtService.generateToken(userAccount);
     var refreshToken = jwtService.generateRefreshToken(userAccount);
     saveUserToken(savedUser, jwtToken);
-    return AuthenticationResponse.builder()
+    return RegisterResponse.builder()
         .accessToken(jwtToken)
         .refreshToken(refreshToken)
+        .profile(LabMapper.INSTANCE.getUserRegisterDto(userAccount.getProfile()))
         .build();
   }
 

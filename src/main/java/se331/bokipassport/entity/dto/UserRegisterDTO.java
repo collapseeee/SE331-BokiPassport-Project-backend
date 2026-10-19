@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnExamDTO {
+public class UserRegisterDTO {
     Long id;
-    String name;
-    String description;
+    String firstName;
+    String lastName;
+    String province;
+    String image;
 }
