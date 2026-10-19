@@ -14,7 +14,7 @@ import se331.bokipassport.util.LabMapper;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/v1/users")
 @AllArgsConstructor
 public class UserController {
     final UserService userService;
