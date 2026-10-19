@@ -18,6 +18,7 @@ import se331.bokipassport.security.token.TokenType;
 import se331.bokipassport.security.user.Role;
 import se331.bokipassport.security.user.UserAccount;
 import se331.bokipassport.security.user.UserAccountRepository;
+import se331.bokipassport.util.LabMapper;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
@@ -75,6 +76,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .profile(LabMapper.INSTANCE.getUserDto(userAccount.getProfile()))
             .build();
   }
 
