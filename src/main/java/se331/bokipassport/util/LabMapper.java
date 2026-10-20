@@ -8,7 +8,6 @@ import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserOwnExamHistoryDTO;
-import se331.bokipassport.entity.dto.UserAuthDTO;
 import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
@@ -22,17 +21,19 @@ public interface LabMapper {
     UserDTO getUserDto(User user);
 
     /* Nested DTO Mapping */
+    @Mapping(target = "id", source = "profile.id")
+    @Mapping(target = "firstName", source = "profile.firstName")
+    @Mapping(target = "lastName", source = "profile.lastName")
+    @Mapping(target = "province", source = "profile.province")
+    @Mapping(target = "image", source = "profile.image")
+    @Mapping(target = "username", source = "username")
+    @Mapping(target = "badges", source = "profile.badges")
+    @Mapping(target = "levels", source = "profile.levels")
+    UserDTO getUserDto(UserAccount userAccount);
     List<UserOwnExamHistoryDTO> getUserOwnExamHistoryDto(List<UserExamHistory> userExamHistories);
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
     UserOwnExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
-    @Mapping(target = "id", source = "profile.id")
-    @Mapping(target = "firstName", source = "profile.firstName")
-    @Mapping(target = "lastName", source = "profile.lastName")
-    @Mapping(target = "province", source = "profile.province")
-    @Mapping(target = "image", source = "profile.image")
-    @Mapping(target = "roles", source = "roles")
-    UserAuthDTO getUserAuthDto(UserAccount userAccount);
 }

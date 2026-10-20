@@ -19,7 +19,6 @@ public class UserDTO {
     String image;
     String username;
 
-    List<UserOwnExamHistoryDTO> userExamHistories;
     List<UserOwnBadgeDTO> badges;
     List<UserOwnLevelDTO> levels;
 }

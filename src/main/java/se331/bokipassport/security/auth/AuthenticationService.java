@@ -9,7 +9,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.User;
+import se331.bokipassport.repository.LevelRepository;
 import se331.bokipassport.repository.UserRepository;
 import se331.bokipassport.security.config.JwtService;
 import se331.bokipassport.security.token.Token;
@@ -34,12 +36,15 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
   private final JsonMapper jsonMapper;
+  private final LevelRepository levelRepository;
 
   public RegisterResponse register(RegisterRequest request) {
+    Level defaultLevel = levelRepository.findByName("Level 1");
     User user = userRepository.save(User.builder()
             .firstName(request.getFirstName())
             .lastName(request.getLastName())
             .province(request.getProvince())
+            .levels(List.of(defaultLevel))
             .image(request.getImage())
             .build());
     UserAccount userAccount = UserAccount.builder()
@@ -56,7 +61,7 @@ public class AuthenticationService {
     return RegisterResponse.builder()
         .accessToken(jwtToken)
         .refreshToken(refreshToken)
-        .profile(LabMapper.INSTANCE.getUserAuthDto(userAccount))
+        .profile(LabMapper.INSTANCE.getUserDto(userAccount))
         .build();
   }
 
@@ -77,7 +82,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
-            .profile(LabMapper.INSTANCE.getUserAuthDto(userAccount))
+            .profile(LabMapper.INSTANCE.getUserDto(userAccount))
             .build();
   }
 
