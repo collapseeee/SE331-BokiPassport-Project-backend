@@ -12,11 +12,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegisterDTO {
+public class UserAuthDTO {
     Long id;
     String firstName;
     String lastName;
     String province;
+    String username;
     String image;
     List<Role> roles;
 }
