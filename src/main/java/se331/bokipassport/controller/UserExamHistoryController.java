@@ -3,6 +3,7 @@ package se331.bokipassport.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se331.bokipassport.entity.dto.UserExamHistoryDTO;
@@ -24,6 +25,9 @@ public class UserExamHistoryController {
             @RequestParam(name = "_page", defaultValue = "1") Integer page
     ) {
         Pageable pageRequest = PageRequest.of(page - 1, pageSize);
-        return ResponseEntity.ok(LabMapper.INSTANCE.getUserExamHistoryDto(userExamHistoryService.findByUserId(id, pageRequest)));
+        HttpHeaders headers = new HttpHeaders();
+        var output = userExamHistoryService.findByUserId(id, pageRequest);
+        headers.set("X-Total-Count", String.valueOf(output.getTotalElements()));
+        return ResponseEntity.ok().headers(headers).body(LabMapper.INSTANCE.getUserExamHistoryDto(output));
     }
 }
