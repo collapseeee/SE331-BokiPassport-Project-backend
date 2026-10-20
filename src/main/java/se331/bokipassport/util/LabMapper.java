@@ -8,11 +8,7 @@ import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserOwnExamHistoryDTO;
-<<<<<<< HEAD
-import se331.bokipassport.entity.dto.UserRegisterDTO;
-=======
 import se331.bokipassport.entity.dto.UserAuthDTO;
->>>>>>> hotfix/invalid-auth-response
 import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
@@ -38,9 +34,5 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "roles", source = "roles")
-<<<<<<< HEAD
-    UserRegisterDTO getUserRegisterDto(UserAccount userAccount);
-=======
     UserAuthDTO getUserAuthDto(UserAccount userAccount);
->>>>>>> hotfix/invalid-auth-response
 }
