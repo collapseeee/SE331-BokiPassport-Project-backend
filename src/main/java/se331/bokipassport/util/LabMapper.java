@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.UserDTO;
-import se331.bokipassport.entity.dto.UserOwnExamHistoryDTO;
+import se331.bokipassport.entity.dto.UserExamHistoryDTO;
 import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
@@ -30,10 +30,13 @@ public interface LabMapper {
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     UserDTO getUserDto(UserAccount userAccount);
-    List<UserOwnExamHistoryDTO> getUserOwnExamHistoryDto(List<UserExamHistory> userExamHistories);
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
-    UserOwnExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
+    List<UserExamHistoryDTO> getUserExamHistoryDto(List<UserExamHistory> userExamHistories);
+    @Mapping(target = "name", source = "exam.name")
+    @Mapping(target = "description", source = "exam.description")
+    @Mapping(target = "level", source = "exam.level.name")
+    UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
 }
