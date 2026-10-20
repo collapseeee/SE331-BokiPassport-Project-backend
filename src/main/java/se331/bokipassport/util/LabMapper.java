@@ -9,6 +9,7 @@ import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserOwnExamHistoryDTO;
 import se331.bokipassport.entity.dto.UserRegisterDTO;
+import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
 
@@ -27,5 +28,11 @@ public interface LabMapper {
     @Mapping(target = "level", source = "exam.level.name")
     UserOwnExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
-    UserRegisterDTO getUserRegisterDto(User user);
+    @Mapping(target = "id", source = "profile.id")
+    @Mapping(target = "firstName", source = "profile.firstName")
+    @Mapping(target = "lastName", source = "profile.lastName")
+    @Mapping(target = "province", source = "profile.province")
+    @Mapping(target = "image", source = "profile.image")
+    @Mapping(target = "roles", source = "roles")
+    UserRegisterDTO getUserRegisterDto(UserAccount userAccount);
 }

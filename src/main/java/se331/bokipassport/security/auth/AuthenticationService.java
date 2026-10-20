@@ -56,7 +56,7 @@ public class AuthenticationService {
     return RegisterResponse.builder()
         .accessToken(jwtToken)
         .refreshToken(refreshToken)
-        .profile(LabMapper.INSTANCE.getUserRegisterDto(userAccount.getProfile()))
+        .profile(LabMapper.INSTANCE.getUserRegisterDto(userAccount))
         .build();
   }
 
