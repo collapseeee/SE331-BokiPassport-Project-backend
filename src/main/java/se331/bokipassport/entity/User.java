@@ -2,6 +2,7 @@ package se331.bokipassport.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
 
@@ -29,4 +30,7 @@ public class User {
 
     @ManyToMany
     List<Level> levels;
+
+    @OneToOne
+    UserAccount account;
 }

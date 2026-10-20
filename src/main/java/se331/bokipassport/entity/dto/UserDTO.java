@@ -17,6 +17,7 @@ public class UserDTO {
     String lastName;
     String province;
     String image;
+    String username;
 
     List<UserOwnExamHistoryDTO> userExamHistories;
     List<UserOwnBadgeDTO> badges;

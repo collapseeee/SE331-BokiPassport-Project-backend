@@ -56,7 +56,11 @@ public class AuthenticationService {
     return RegisterResponse.builder()
         .accessToken(jwtToken)
         .refreshToken(refreshToken)
+<<<<<<< HEAD
         .profile(LabMapper.INSTANCE.getUserRegisterDto(userAccount))
+=======
+        .profile(LabMapper.INSTANCE.getUserAuthDto(userAccount))
+>>>>>>> hotfix/invalid-auth-response
         .build();
   }
 
@@ -77,7 +81,11 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
             .accessToken(jwtToken)
             .refreshToken(refreshToken)
+<<<<<<< HEAD
             .profile(LabMapper.INSTANCE.getUserDto(userAccount.getProfile()))
+=======
+            .profile(LabMapper.INSTANCE.getUserAuthDto(userAccount))
+>>>>>>> hotfix/invalid-auth-response
             .build();
   }
 
