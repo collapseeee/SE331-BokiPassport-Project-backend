@@ -2,7 +2,7 @@ package se331.bokipassport.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import se331.bokipassport.util.LabMapper;
 
 import java.util.List;
 
-@Repository
+@RestController
 @RequestMapping("/v1/levels")
 @AllArgsConstructor
 public class LevelController {
