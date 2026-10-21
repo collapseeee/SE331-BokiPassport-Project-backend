@@ -1,5 +1,6 @@
 package se331.bokipassport.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,22 @@ public class UserServiceImpl implements UserService{
     public UserAccount findUserAccountById(Long id) {
         return userDao.findUserAccountById(id);
     }
+
+    @Transactional
+    @Override
+    public UserAccount deactivateUser(Long id) {
+        UserAccount user = userDao.findUserAccountById(id);
+        user.setEnabled(false);
+        return userDao.saveUser(user);
+    }
+
+    @Transactional
+    @Override
+    public UserAccount reactivateUser(Long id) {
+        UserAccount user = userDao.findUserAccountById(id);
+        user.setEnabled(true);
+        return userDao.saveUser(user);
+    }
+
+
 }

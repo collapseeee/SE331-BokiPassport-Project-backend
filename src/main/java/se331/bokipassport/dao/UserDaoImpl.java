@@ -33,4 +33,9 @@ public class UserDaoImpl implements UserDao {
         return accountRepository.findByProfile_Id(id).stream().findFirst().orElse(null);
     }
 
+    @Override
+    public UserAccount saveUser(UserAccount account) {
+        return accountRepository.save(account);
+    }
+
 }
