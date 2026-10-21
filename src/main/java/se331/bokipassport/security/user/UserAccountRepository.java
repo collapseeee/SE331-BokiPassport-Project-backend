@@ -1,6 +1,10 @@
 package se331.bokipassport.security.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -12,4 +16,18 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 
   Optional<UserAccount> findByProfile_Id(Long id);
 
+  Page<UserAccount> findAll(Pageable pageable);
+
+  @Query("SELECT DISTINCT ua FROM UserAccount ua " +
+          "JOIN ua.profile p " +
+          "LEFT JOIN p.levels l WHERE " +
+          "(:name IS NULL OR :name = '' OR LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
+          "(:province IS NULL OR :province = '' OR LOWER(p.province) LIKE LOWER(CONCAT('%', :province, '%'))) AND " +
+          "(:levelId IS NULL OR (SELECT MAX(l2.id) FROM User u2 JOIN u2.levels l2 WHERE u2.id = p.id) = :levelId)")
+  Page<UserAccount> searchUserAccounts(
+          @Param("name") String name,
+          @Param("province") String province,
+          @Param("levelId") Long levelId,
+          Pageable pageable
+  );
 }

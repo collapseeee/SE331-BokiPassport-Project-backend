@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
-import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserExamHistoryDTO;
@@ -16,11 +15,8 @@ import java.util.List;
 public interface LabMapper {
     LabMapper INSTANCE = Mappers.getMapper(LabMapper.class);
 
-    /* Parent DTO Mapping */
-    List<UserDTO> getUserDto(Page<User> users);
-    UserDTO getUserDto(User user);
-
     /* Nested DTO Mapping */
+    // UserAccount to UserDTO
     @Mapping(target = "id", source = "profile.id")
     @Mapping(target = "firstName", source = "profile.firstName")
     @Mapping(target = "lastName", source = "profile.lastName")
@@ -30,6 +26,18 @@ public interface LabMapper {
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     UserDTO getUserDto(UserAccount userAccount);
+
+    @Mapping(target = "id", source = "profile.id")
+    @Mapping(target = "firstName", source = "profile.firstName")
+    @Mapping(target = "lastName", source = "profile.lastName")
+    @Mapping(target = "province", source = "profile.province")
+    @Mapping(target = "image", source = "profile.image")
+    @Mapping(target = "username", source = "username")
+    @Mapping(target = "badges", source = "profile.badges")
+    @Mapping(target = "levels", source = "profile.levels")
+    List<UserDTO> getUserDto(List<UserAccount> userAccounts);
+
+    // Exams
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
