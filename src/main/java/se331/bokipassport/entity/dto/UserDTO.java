@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se331.bokipassport.security.user.Role;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class UserDTO {
     String image;
     String username;
 
+    List<Role> roles;
     List<UserOwnBadgeDTO> badges;
     List<UserOwnLevelDTO> levels;
 }
