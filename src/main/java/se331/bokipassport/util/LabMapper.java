@@ -3,8 +3,14 @@ package se331.bokipassport.util;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
 import org.springframework.data.domain.Page;
+import se331.bokipassport.entity.Benefit;
+import se331.bokipassport.entity.Level;
+import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
+import se331.bokipassport.entity.dto.BenefitDTO;
+import se331.bokipassport.entity.dto.LevelDTO;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserExamHistoryDTO;
 import se331.bokipassport.security.user.UserAccount;
@@ -46,5 +52,11 @@ public interface LabMapper {
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
+    @Mapping(target = "levelId", source = "level.id")
+    BenefitDTO getBenefitDto(Benefit benefit);
+    List<BenefitDTO> getBenefitDto(List<Benefit> benefits);
+    @Mapping(target = "benefits", source = "benefits")
+    LevelDTO getLevelDto(Level level);
+    List<LevelDTO> getLevelDto(List<Level> levels);
 
 }
