@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se331.bokipassport.entity.dto.UserAuthDTO;
+import se331.bokipassport.entity.dto.UserDTO;
 
 @Data
 @Builder
@@ -15,5 +15,5 @@ public class AuthenticationResponse {
   private String accessToken;
   private String refreshToken;
 
-  private UserAuthDTO profile;
+  private UserDTO profile;
 }

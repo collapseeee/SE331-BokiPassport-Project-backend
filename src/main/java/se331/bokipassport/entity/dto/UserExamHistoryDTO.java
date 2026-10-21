@@ -11,7 +11,7 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnExamHistoryDTO {
+public class UserExamHistoryDTO {
     Long id;
     Instant createdAt;
     Integer totalScore;
