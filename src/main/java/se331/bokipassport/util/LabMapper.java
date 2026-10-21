@@ -45,9 +45,9 @@ public interface LabMapper {
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
     @Mapping(target = "levelId", source = "level.id")
     BenefitDTO getBenefitDto(Benefit benefit);
-    List<BenefitDTO> getBenefitDtos(List<Benefit> benefits);
-    @Mapping(target = "benefits", source = "benefit")
+    List<BenefitDTO> getBenefitDto(List<Benefit> benefits);
+    @Mapping(target = "benefits", source = "benefits")
     LevelDTO getLevelDto(Level level);
-    List<LevelDTO> getLevelDtos(List<Level> levels);
+    List<LevelDTO> getLevelDto(List<Level> levels);
 
 }
