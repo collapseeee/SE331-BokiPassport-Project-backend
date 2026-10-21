@@ -23,7 +23,8 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
           "LEFT JOIN p.levels l WHERE " +
           "(:name IS NULL OR :name = '' OR LOWER(p.firstName) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(p.lastName) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
           "(:province IS NULL OR :province = '' OR LOWER(p.province) LIKE LOWER(CONCAT('%', :province, '%'))) AND " +
-          "(:levelId IS NULL OR (SELECT MAX(l2.id) FROM User u2 JOIN u2.levels l2 WHERE u2.id = p.id) = :levelId)")
+          "(:levelId IS NULL OR (SELECT MAX(l2.id) FROM User u2 JOIN u2.levels l2 WHERE u2.id = p.id) = :levelId) AND " +
+          "NOT EXISTS (SELECT r FROM ua.roles r WHERE r = se331.bokipassport.security.user.Role.ROLE_ADMIN)")
   Page<UserAccount> searchUserAccounts(
           @Param("name") String name,
           @Param("province") String province,
