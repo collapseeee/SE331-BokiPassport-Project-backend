@@ -49,5 +49,5 @@ public interface LabMapper {
     @Mapping(target = "benefits", source = "benefit")
     LevelDTO getLevelDto(Level level);
     List<LevelDTO> getLevelDtos(List<Level> levels);
-    
+
 }
