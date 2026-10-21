@@ -31,6 +31,7 @@ public interface LabMapper {
     @Mapping(target = "username", source = "username")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
+    @Mapping(target = "isActive", source = "enabled")
     UserDTO getUserDto(UserAccount userAccount);
 
     @Mapping(target = "id", source = "profile.id")
@@ -41,6 +42,7 @@ public interface LabMapper {
     @Mapping(target = "username", source = "username")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
+    @Mapping(target = "isActive", source = "enabled")
     List<UserDTO> getUserDto(List<UserAccount> userAccounts);
 
     // Exams

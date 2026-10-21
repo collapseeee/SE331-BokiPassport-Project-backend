@@ -19,6 +19,7 @@ public class UserDTO {
     String province;
     String image;
     String username;
+    Boolean isActive;
 
     List<Role> roles;
     List<UserOwnBadgeDTO> badges;
