@@ -50,4 +50,13 @@ public class UserController {
     ResponseEntity<UserDTO> findById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.findUserAccountById(id)));
     }
+
+    @PatchMapping("/{id}/deactivate")
+    ResponseEntity<UserDTO> deactivateUser(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.deactivateUser(id)));
+    }
+    @PatchMapping("/{id}/reactivate")
+    ResponseEntity<UserDTO> reactivateUser(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.reactivateUser(id)));
+    }
 }
