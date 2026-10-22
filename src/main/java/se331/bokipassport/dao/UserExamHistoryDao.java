@@ -6,4 +6,5 @@ import se331.bokipassport.entity.UserExamHistory;
 
 public interface UserExamHistoryDao {
     Page<UserExamHistory> findByUserId(Long id, Pageable pageable);
+    UserExamHistory save(UserExamHistory history);
 }

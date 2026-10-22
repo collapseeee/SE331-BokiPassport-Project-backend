@@ -17,4 +17,9 @@ public class UserExamHistoryDaoImpl implements UserExamHistoryDao {
     public Page<UserExamHistory> findByUserId(Long id, Pageable pageable) {
         return userExamHistoryRepository.findByUser_Id(id, pageable);
     }
+
+    @Override
+    public UserExamHistory save(UserExamHistory history) {
+        return userExamHistoryRepository.save(history);
+    }
 }

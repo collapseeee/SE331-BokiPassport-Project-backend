@@ -62,7 +62,7 @@ Level-gated, same rule as 1.1: **403** if the caller is below the exam's level.
 
 **Request**
 ```json
-{ "answers": { "1": 2, "2": 6, "3": 9, "4": 15, "5": 18 } }
+{ "answers": { "1": 2, "2": 5, "3": 9, "4": 15, "5": 17 } }
 ```
 `answers` maps **question id → chosen answer id**. A question you did not answer is simply omitted and counts
 as wrong (the timer can expire mid-exam, so partial submissions are valid — they are not rejected).
@@ -289,8 +289,17 @@ $admin = (Invoke-RestMethod -Uri http://localhost:8080/v1/auth/authenticate -Met
 curl.exe "http://localhost:8080/v1/admin/exams/1/questions" -H "Authorization: Bearer $admin"
 
 # submit an exam -> 200 with the score
-curl.exe -X POST "http://localhost:8080/v1/exams/1/submit" -H "Authorization: Bearer $token" -H "Content-Type: application/json" -d '{\"answers\":{\"1\":2,\"2\":6,\"3\":9,\"4\":15,\"5\":18}}'
+curl.exe -X POST "http://localhost:8080/v1/exams/1/submit" -H "Authorization: Bearer $token" -H "Content-Type: application/json" -d '{\"answers\":{\"1\":2,\"2\":5,\"3\":9,\"4\":15,\"5\":17}}'
 ```
+
+The real response for those answers (verified against the running backend):
+
+```json
+{"examId":1,"totalScore":5,"maxScore":5,"isPassed":true,"awardedLevelId":2}
+```
+
+`awardedLevelId` is `null` when the user does not pass, or when they already hold the next level — the level is
+awarded exactly once.
 
 > Use `curl.exe`, not `curl`. In PowerShell 5.1 `curl` is an alias for `Invoke-WebRequest`, which has no `-H`
 > flag, so the header silently never gets sent and everything comes back 403.
