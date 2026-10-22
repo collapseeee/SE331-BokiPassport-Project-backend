@@ -59,10 +59,12 @@ public interface LabMapper {
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
+    @Mapping(target = "examId", source = "exam.id")
     List<UserExamHistoryDTO> getUserExamHistoryDto(Page<UserExamHistory> userExamHistories);
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
+    @Mapping(target = "examId", source = "exam.id")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
     // Benefit
