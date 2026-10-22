@@ -179,7 +179,7 @@ curl.exe http://localhost:8080/v1/services -H "Authorization: Bearer $token"
 
 ---
 
-## 6. Question + Answer — `GET /v1/questions?examId=`
+## 6. Question + Answer — `GET /v1/questions?examId=` (candidate view)
 
 ```powershell
 curl.exe "http://localhost:8080/v1/questions?examId=1" -H "Authorization: Bearer $token"
@@ -188,25 +188,77 @@ curl.exe "http://localhost:8080/v1/questions?examId=99" -H "Authorization: Beare
 curl.exe "http://localhost:8080/v1/questions" -H "Authorization: Bearer $token"
 ```
 
-**Expect** — 5 questions per exam, each with 4 answer choices:
+**Expect** — 5 questions per exam, each with 4 answer choices, and **no `isCorrect` anywhere**:
 
 ```json
 [{"id":1,"questionText":"What is BokiAI?","examId":1,
-  "answerChoices":[{"id":1,"answerText":"The real boki","isCorrect":false,"questionId":1},
-                   {"id":2,"answerText":"The Agentic Artificial Inteligence","isCorrect":true,"questionId":1}, ...]},
- ...]
+  "answerChoices":[{"id":1,"answerText":"The real boki","questionId":1},
+                   {"id":2,"answerText":"The Agentic Artificial Inteligence","questionId":1}]}]
 ```
 
 **Check**
 - [ ] `answerChoices` (not `answerList` — renamed in the DTO)
 - [ ] each answer's `questionId` matches the question it belongs to
+- [ ] **there is no `isCorrect` key in the response** — the answer key must not reach the browser
 - [ ] `examId=1/2/3` → 5 questions each; `examId=99` → `[]` with HTTP 200
 - [ ] missing `examId` → **HTTP 400** (the param is required)
 
-> ⚠️ **`isCorrect` is exposed on purpose** — the frontend scores the exam client-side, so the
-> answer key has to reach the browser. There is a comment on the field saying so.
-> This is a known limitation, not an oversight. If the exam must not leak answers, it needs a
-> server-scored `POST /v1/exams/{id}/submit` — that is future work.
+### 6a. Level gate
+
+`boki` holds level 1; exam 3 belongs to level 3.
+
+```powershell
+curl.exe -o NUL -w "%{http_code}" "http://localhost:8080/v1/questions?examId=3" -H "Authorization: Bearer $bokiToken"
+```
+
+**Expect** — **403 Forbidden** with the body
+`{"detail":"Your level is too low to access this exam","status":403,"title":"Forbidden"}`
+
+The admin holds all four levels, so the admin gets 200 for every exam.
+
+### 6b. Admin answer key — `GET /v1/admin/exams/{examId}/questions`
+
+```powershell
+curl.exe "http://localhost:8080/v1/admin/exams/1/questions" -H "Authorization: Bearer $adminToken"
+```
+
+**Expect** — 200, the same questions **with `isCorrect`**. A non-admin gets **403**.
+
+**Check**
+- [ ] admin → 200 and `isCorrect` present on every answer
+- [ ] non-admin → 403
+- [ ] `questionId` is populated (not null) on every answer
+
+> This is the **only** endpoint in the app that returns the answer key, and it is restricted to
+> `ROLE_ADMIN`. The candidate endpoint above deliberately has no `isCorrect` field.
+
+## 6c. Submit an exam — `POST /v1/exams/{examId}/submit`
+
+```powershell
+curl.exe -X POST "http://localhost:8080/v1/exams/1/submit" -H "Authorization: Bearer $bokiToken" -H "Content-Type: application/json" -d '{\"answers\":{\"1\":2,\"2\":5,\"3\":9,\"4\":15,\"5\":17}}'
+```
+
+**Expect** — 200:
+
+```json
+{"examId":1,"totalScore":5,"maxScore":5,"isPassed":true,"awardedLevelId":2}
+```
+
+`answers` maps **question id → chosen answer id**. The key for exam 1 is
+`{"1":2, "2":5, "3":9, "4":15, "5":17}` — the only way to see it is the admin endpoint above.
+
+**Check**
+- [ ] the correct answers give `totalScore: 5`, `isPassed: true`
+- [ ] wrong answers give a low `totalScore` and `isPassed: false`
+- [ ] `awardedLevelId` is the level the user just unlocked, or `null` if they did not pass **or already hold it**
+- [ ] a partial submission (some questions omitted) is accepted and the omitted ones count as wrong
+- [ ] submitting an exam above the caller's level → **403**
+- [ ] submitting an unknown exam → **404**
+- [ ] the submission writes a row to the exam history — check `GET /v1/exams/users/2` afterwards
+- [ ] after a pass, the caller's `levelId` in `GET /v1/users/{id}` goes up by one
+
+> **Note:** submitting as `boki` really does award him level 2 in your local database. The database is
+> rebuilt on every backend restart (`ddl-auto: create`), so the seed data comes back.
 
 ---
 
@@ -309,6 +361,11 @@ curl.exe "http://localhost:8080/v1/exams/users/2?_page=1&_limit=5" -H "Authoriza
 | any endpoint with a **garbage** token | **403**, empty body |
 | `GET /v1/questions` (no `examId`) | **400** |
 | `GET /v1/questions?examId=99` | **200**, `[]` |
+| `GET /v1/questions?examId=3` as a level-1 user | **403** "Your level is too low to access this exam" |
+| `GET /v1/admin/exams/1/questions` as a non-admin | **403** |
+| `GET /v1/admin/exams/1/questions` as the admin | **200**, with `isCorrect` |
+| `POST /v1/exams/3/submit` as a level-1 user | **403** |
+| `POST /v1/exams/999/submit` | **404** |
 | `GET /v1/exams/999` | **200**, empty body |
 | `GET /v1/levels/999` | **200**, empty body |
 | `GET /v1/auth/authenticate` with GET | **405** |
@@ -325,17 +382,21 @@ branch — it is not a regression from these changes, but flag it if you want pr
 .\mvnw.cmd test
 ```
 
-**Expect** — 6 tests, 0 failures:
+**Expect** — 26 tests, 0 failures:
 
 ```
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.BokipassportApplicationTests
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.security.user.CurrentUserServiceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.util.ExamAccessTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.util.ExamScorerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.util.QuestionDTOMappingTest
 [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.util.UserDTOMappingTest
 [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0 -- in se331.bokipassport.util.UserExamHistoryDTOMappingTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 26, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 `BokipassportApplicationTests` boots the whole app against the local Postgres, so **the database
-must be running** or that one test fails. The two mapping tests are plain unit tests — no DB needed.
+must be running** or that one test fails. The other six are plain unit tests — no DB needed.
 
 ---
 
@@ -351,7 +412,9 @@ backend now returns:
 | `/v1/courses` | `id, createdAt, name, description, videoUrl, levelId` |
 | `/v1/benefits` | `id, description, levelId` |
 | `/v1/services` | `id, name, levelId` |
-| `/v1/questions?examId=` | `id, questionText, examId, answerChoices[{id, answerText, isCorrect, questionId}]` |
+| `/v1/questions?examId=` | `id, questionText, examId, answerChoices[{id, answerText, questionId}]` — **no `isCorrect`** |
+| `/v1/admin/exams/{id}/questions` | `id, questionText, examId, answerChoices[{id, answerText, isCorrect, questionId}]` — admin only |
+| `POST /v1/exams/{id}/submit` | request `{answers: {questionId: answerId}}` → response `{examId, totalScore, maxScore, isPassed, awardedLevelId}` |
 | `/v1/exams` | `id, name, description, levelId, questionCount` |
 | `/v1/users` | `id, firstName, lastName, province, image, username, isActive, levelId, roles[], badges[], levels[]` |
 | `/v1/exams/users/{id}` | `id, createdAt, totalScore, isPassed, examId, name, description, level` |
@@ -361,8 +424,13 @@ Two things the frontend **must** do before it can call any of this:
 1. **Attach the token.** `apiClient` currently has no axios request interceptor, so it never
    sends `Authorization` and every `/v1` call will 403. Read `AUTH_TOKEN` from localStorage
    and set the header.
-2. **Read `questionCount`, not `questions.length`.** `ExamDTO` deliberately does not embed
-   questions. One line in `views/user/exam/ExamView.vue`.
+2. **Stop reading `isCorrect`, and post the answers instead.** The candidate questions endpoint
+   no longer carries the answer key, so the exam must be scored by the server.
+   See `FRONTEND-INTEGRATION-PLAN.md` for the full change list.
+
+> ⚠️ **Merging this backend branch before the frontend branch breaks the exam flow** — the
+> frontend's client-side scoring reads `isCorrect`, which is now absent. The frontend change
+> must land first or together with this branch.
 
 ---
 
