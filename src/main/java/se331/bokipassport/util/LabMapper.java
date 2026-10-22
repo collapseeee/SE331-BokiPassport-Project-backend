@@ -64,12 +64,18 @@ public interface LabMapper {
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
+
+    // Benefit
     @Mapping(target = "levelId", source = "level.id")
     BenefitDTO getBenefitDto(Benefit benefit);
     List<BenefitDTO> getBenefitDto(List<Benefit> benefits);
     @Mapping(target = "benefits", source = "benefits")
+
+    // Level
     LevelDTO getLevelDto(Level level);
     List<LevelDTO> getLevelDto(List<Level> levels);
+
+    // Badge
     List<BadgeDTO> getBadgeDto(List<Badge> badges);
     BadgeDTO getBadgeDto(Badge badge);
 
