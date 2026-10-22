@@ -4,13 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
+import se331.bokipassport.entity.Badge;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.UserExamHistory;
-import se331.bokipassport.entity.dto.BenefitDTO;
-import se331.bokipassport.entity.dto.LevelDTO;
-import se331.bokipassport.entity.dto.UserDTO;
-import se331.bokipassport.entity.dto.UserExamHistoryDTO;
+import se331.bokipassport.entity.dto.*;
 import se331.bokipassport.security.user.UserAccount;
 
 import java.util.List;
@@ -56,6 +54,8 @@ public interface LabMapper {
     @Mapping(target = "benefits", source = "benefits")
     LevelDTO getLevelDto(Level level);
     List<LevelDTO> getLevelDto(List<Level> levels);
+    List<BadgeDTO> getBadgeDto(List<Badge> badges);
+    BadgeDTO getBadgeDto(Badge badge);
 
     // Image
     StorageFileDto getStorageFileDto(String file);
