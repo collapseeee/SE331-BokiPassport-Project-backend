@@ -16,7 +16,5 @@ public class UserExamHistoryDTO {
     Instant createdAt;
     Integer totalScore;
     Boolean isPassed;
-    String name;
-    String description;
-    String level;
+    ExamDTO exam;
 }

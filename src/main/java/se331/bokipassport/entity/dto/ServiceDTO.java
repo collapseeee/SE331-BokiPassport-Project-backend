@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ServiceDTO {
     Long id;
     String name;
+    LevelDTO level;
 }

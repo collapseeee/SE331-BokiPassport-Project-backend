@@ -12,4 +12,5 @@ public interface UserDao {
     UserAccount findUserAccountById(Long id);
     UserAccount saveUser(UserAccount account);
     User saveProfile(User user);
+    User findProfileById(Long id);
 }

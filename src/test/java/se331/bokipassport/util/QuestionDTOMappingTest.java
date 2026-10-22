@@ -27,42 +27,44 @@ class QuestionDTOMappingTest {
     }
 
     @Test
-    void theCandidateShapeCarriesTheQuestionAndItsChoices() {
-        var dto = LabMapper.INSTANCE.getQuestionDto(question());
+    void theShapeCarriesTheQuestionAndItsChoices() {
+        var dtos = LabMapper.INSTANCE.getQuestionDto(List.of(question()));
 
-        assertEquals(1L, dto.getId());
-        assertEquals(1, dto.getAnswerChoices().size());
-        assertEquals(10L, dto.getAnswerChoices().get(0).getId());
+        assertEquals(1L, dtos.get(0).getId());
+        assertEquals(1, dtos.get(0).getAnswerChoices().size());
+        assertEquals(10L, dtos.get(0).getAnswerChoices().get(0).getId());
     }
 
     @Test
-    void theAdminShapeCarriesTheKey() {
-        var dto = LabMapper.INSTANCE.getQuestionWithKeyDto(question());
-
-        assertEquals(1, dto.getAnswerChoices().size());
-        assertEquals(true, dto.getAnswerChoices().get(0).getIsCorrect());
-    }
-
-    @Test
-    void theCandidateResponseJsonNeverContainsTheAnswerKey() throws Exception {
-        String json = new ObjectMapper().writeValueAsString(LabMapper.INSTANCE.getQuestionDto(question()));
-
-        assertFalse(json.contains("isCorrect"), "the candidate endpoint must not leak the answer key");
-    }
-
-    @Test
-    void theAdminResponseJsonDoesContainTheAnswerKey() throws Exception {
+    void theAdminViewCarriesTheAnswerKey() throws Exception {
         String json = new ObjectMapper().writeValueAsString(
-                LabMapper.INSTANCE.getQuestionWithKeyDto(question()));
+                LabMapper.INSTANCE.getQuestionDto(List.of(question())));
 
-        assertTrue(json.contains("\"isCorrect\":true"), "the admin endpoint must carry the answer key");
+        assertTrue(json.contains("\"isCorrect\":true"), "the admin view must carry the answer key");
+    }
+
+    @Test
+    void theCandidateViewNeverCarriesTheAnswerKey() throws Exception {
+        String json = new ObjectMapper().writeValueAsString(
+                LabMapper.INSTANCE.getCandidateQuestionDto(List.of(question())));
+
+        assertFalse(json.contains("isCorrect"), "the candidate view must not leak the answer key");
+    }
+
+    @Test
+    void theCandidateViewStillCarriesTheChoices() {
+        var dtos = LabMapper.INSTANCE.getCandidateQuestionDto(List.of(question()));
+
+        assertEquals(1, dtos.get(0).getAnswerChoices().size());
+        assertEquals("The Agentic Artificial Inteligence", dtos.get(0).getAnswerChoices().get(0).getAnswerText());
     }
 
     @Test
     void noShapeCarriesAForeignKeyForItsParent() throws Exception {
-        String candidate = new ObjectMapper().writeValueAsString(LabMapper.INSTANCE.getQuestionDto(question()));
+        String candidate = new ObjectMapper().writeValueAsString(
+                LabMapper.INSTANCE.getCandidateQuestionDto(List.of(question())));
         String admin = new ObjectMapper().writeValueAsString(
-                LabMapper.INSTANCE.getQuestionWithKeyDto(question()));
+                LabMapper.INSTANCE.getQuestionDto(List.of(question())));
 
         assertFalse(candidate.contains("questionId"), "the parent is implied by the nesting");
         assertFalse(candidate.contains("examId"), "the parent is implied by the nesting");

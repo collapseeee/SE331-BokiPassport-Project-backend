@@ -44,4 +44,9 @@ public class UserDaoImpl implements UserDao {
         return userRepository.save(user);
     }
 
+    @Override
+    public User findProfileById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 }

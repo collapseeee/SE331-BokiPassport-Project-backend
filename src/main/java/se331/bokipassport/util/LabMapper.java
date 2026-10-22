@@ -45,20 +45,13 @@ public interface LabMapper {
     @Mapping(target = "levels", source = "profile.levels")
     List<UserDTO> getUserDto(List<UserAccount> userAccounts);
 
-    // Exams
-    @Mapping(target = "name", source = "exam.name")
-    @Mapping(target = "description", source = "exam.description")
-    @Mapping(target = "level", source = "exam.level.name")
+    // Exam history - the exam is nested, not referenced by id
     List<UserExamHistoryDTO> getUserExamHistoryDto(Page<UserExamHistory> userExamHistories);
-    @Mapping(target = "name", source = "exam.name")
-    @Mapping(target = "description", source = "exam.description")
-    @Mapping(target = "level", source = "exam.level.name")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
     // Benefit
     BenefitDTO getBenefitDto(Benefit benefit);
     List<BenefitDTO> getBenefitDto(List<Benefit> benefits);
-    @Mapping(target = "benefits", source = "benefits")
 
     // Level
     LevelDTO getLevelDto(Level level);
@@ -83,11 +76,16 @@ public interface LabMapper {
     QuestionDTO getQuestionDto(Question question);
     List<QuestionDTO> getQuestionDto(List<Question> questions);
 
-    // Questions including the answer key - admin only
-    AnswerWithKeyDTO getAnswerWithKeyDto(Answer answer);
-    @Mapping(target = "answerChoices", source = "answerList")
-    QuestionWithKeyDTO getQuestionWithKeyDto(Question question);
-    List<QuestionWithKeyDTO> getQuestionWithKeyDto(List<Question> questions);
+    /**
+     * The candidate view must not carry the answer key. The admin view uses
+     * getQuestionDto, which keeps isCorrect.
+     */
+    default List<QuestionDTO> getCandidateQuestionDto(List<Question> questions) {
+        List<QuestionDTO> dtos = getQuestionDto(questions);
+        dtos.forEach(question -> question.getAnswerChoices()
+                .forEach(answer -> answer.setIsCorrect(null)));
+        return dtos;
+    }
 
     // Exams
     @Mapping(target = "questionCount", source = "questions")

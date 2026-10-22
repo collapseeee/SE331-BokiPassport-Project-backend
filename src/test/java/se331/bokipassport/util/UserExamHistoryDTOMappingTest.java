@@ -25,7 +25,7 @@ class UserExamHistoryDTOMappingTest {
                 .name("Upgrade to Level 4 examination")
                 .description("3 Advanced BokiAI design.")
                 .build();
-        exam.setLevel(Level.builder().id(3L).name("Level 3").build());
+        exam.setLevel(Level.builder().id(3L).name("Level 3").passCriteria(0.75).build());
         return UserExamHistory.builder()
                 .id(9L)
                 .createdAt(Instant.parse("2026-10-22T00:00:00Z"))
@@ -36,13 +36,14 @@ class UserExamHistoryDTOMappingTest {
     }
 
     @Test
-    void mapsTheExamsDetailsOntoTheHistory() {
+    void mapsTheScoreAndNestsTheExam() {
         UserExamHistoryDTO dto = LabMapper.INSTANCE.getUserOwnExamHistoryDto(history());
 
         assertEquals(4, dto.getTotalScore());
         assertEquals(true, dto.getIsPassed());
-        assertEquals("Upgrade to Level 4 examination", dto.getName());
-        assertEquals("Level 3", dto.getLevel());
+        assertEquals(3L, dto.getExam().getId());
+        assertEquals("Upgrade to Level 4 examination", dto.getExam().getName());
+        assertEquals(3L, dto.getExam().getLevel().getId());
     }
 
     @Test
@@ -51,7 +52,7 @@ class UserExamHistoryDTOMappingTest {
                 new PageImpl<>(List.of(history())));
 
         assertEquals(1, dtos.size());
-        assertEquals("Upgrade to Level 4 examination", dtos.get(0).getName());
+        assertEquals("Upgrade to Level 4 examination", dtos.get(0).getExam().getName());
     }
 
     @Test
@@ -60,8 +61,7 @@ class UserExamHistoryDTOMappingTest {
                 .map(Field::getName)
                 .toList();
 
-        assertFalse(fieldNames.contains("examId"), "the exam is mapped as nested details, not a foreign key");
-        assertTrue(fieldNames.contains("name"));
-        assertTrue(fieldNames.contains("level"));
+        assertFalse(fieldNames.contains("examId"), "the exam is nested, not referenced by id");
+        assertTrue(fieldNames.contains("exam"));
     }
 }
