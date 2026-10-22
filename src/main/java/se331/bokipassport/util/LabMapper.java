@@ -100,6 +100,14 @@ public interface LabMapper {
     QuestionDTO getQuestionDto(Question question);
     List<QuestionDTO> getQuestionDto(List<Question> questions);
 
+    // Questions including the answer key - admin only
+    @Mapping(target = "questionId", source = "question.id")
+    AnswerWithKeyDTO getAnswerWithKeyDto(Answer answer);
+    @Mapping(target = "examId", source = "exam.id")
+    @Mapping(target = "answerChoices", source = "answerList")
+    QuestionWithKeyDTO getQuestionWithKeyDto(Question question);
+    List<QuestionWithKeyDTO> getQuestionWithKeyDto(List<Question> questions);
+
     // Exams
     @Mapping(target = "levelId", source = "level.id")
     @Mapping(target = "questionCount", source = "questions")

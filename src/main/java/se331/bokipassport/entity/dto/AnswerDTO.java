@@ -12,7 +12,5 @@ import lombok.NoArgsConstructor;
 public class AnswerDTO {
     Long id;
     String answerText;
-    // shortcut: the answer key is sent to the browser and the frontend scores the exam client-side, upgrade to a server-scored POST /v1/exams/{id}/submit when answers must stay secret
-    Boolean isCorrect;
     Long questionId;
 }
