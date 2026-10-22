@@ -7,4 +7,5 @@ import java.util.List;
 public interface BadgeDao {
     List<Badge> findAll();
     Badge findById(Long id);
+    List<Badge> findByUserId(Long id);
 }

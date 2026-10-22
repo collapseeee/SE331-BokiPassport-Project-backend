@@ -27,4 +27,9 @@ public class BadgeController {
     ResponseEntity<BadgeDTO> findById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getBadgeDto(badgeService.findById(id)));
     }
+
+    @GetMapping("/users/{id}")
+    ResponseEntity<List<BadgeDTO>> findByUserId(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getBadgeDto(badgeService.findByUserId(id)));
+    }
 }

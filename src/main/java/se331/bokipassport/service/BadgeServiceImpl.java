@@ -21,4 +21,9 @@ public class BadgeServiceImpl implements BadgeService {
     public Badge findById(Long id) {
         return badgeDao.findById(id);
     }
+
+    @Override
+    public List<Badge> findByUserId(Long id) {
+        return badgeDao.findByUserId(id);
+    }
 }
