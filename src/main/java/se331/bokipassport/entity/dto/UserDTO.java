@@ -20,6 +20,9 @@ public class UserDTO {
     String image;
     String username;
 
+    Boolean isActive;
+    Long levelId;
+
     List<Role> roles;
     List<UserOwnBadgeDTO> badges;
     List<UserOwnLevelDTO> levels;

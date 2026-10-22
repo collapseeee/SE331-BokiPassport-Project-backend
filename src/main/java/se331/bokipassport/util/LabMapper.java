@@ -30,6 +30,8 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "username", source = "username")
+    @Mapping(target = "isActive", source = "enabled")
+    @Mapping(target = "levelId", source = "profile.levels")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     UserDTO getUserDto(UserAccount userAccount);
@@ -40,9 +42,18 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "username", source = "username")
+    @Mapping(target = "isActive", source = "enabled")
+    @Mapping(target = "levelId", source = "profile.levels")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     List<UserDTO> getUserDto(List<UserAccount> userAccounts);
+
+    default Long maxLevelId(List<Level> levels) {
+        if (levels == null || levels.isEmpty()) {
+            return null;
+        }
+        return levels.stream().map(Level::getId).max(Long::compareTo).orElse(null);
+    }
 
     // Exams
     @Mapping(target = "name", source = "exam.name")

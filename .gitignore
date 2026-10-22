@@ -42,3 +42,6 @@ build/
 .same
 /welcome
 .mcp.json
+
+### superpowers scratch ###
+.superpowers/
