@@ -8,6 +8,7 @@ import se331.bokipassport.entity.Answer;
 import se331.bokipassport.entity.Badge;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Course;
+import se331.bokipassport.entity.Exam;
 import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.Question;
 import se331.bokipassport.entity.Service;
@@ -79,6 +80,16 @@ public interface LabMapper {
     @Mapping(target = "answerChoices", source = "answerList")
     QuestionDTO getQuestionDto(Question question);
     List<QuestionDTO> getQuestionDto(List<Question> questions);
+
+    // Exams
+    @Mapping(target = "levelId", source = "level.id")
+    @Mapping(target = "questionCount", source = "questions")
+    ExamDTO getExamDto(Exam exam);
+    List<ExamDTO> getExamDto(List<Exam> exams);
+
+    default Integer countQuestions(List<Question> questions) {
+        return questions == null ? 0 : questions.size();
+    }
 
     // Image
     StorageFileDto getStorageFileDto(String file);
