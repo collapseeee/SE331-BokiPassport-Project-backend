@@ -7,4 +7,5 @@ import java.util.List;
 public interface BadgeService {
     List<Badge> findAll();
     Badge findById(Long id);
+    List<Badge> findByUserId(Long id);
 }
