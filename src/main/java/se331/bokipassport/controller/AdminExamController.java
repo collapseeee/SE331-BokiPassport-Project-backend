@@ -21,7 +21,7 @@ public class AdminExamController {
 
     @GetMapping("/{examId}/questions")
     @PreAuthorize("hasRole('ADMIN')")
-    ResponseEntity<List<QuestionWithKeyDTO>> findQuestionsWithKey(@PathVariable(name = "examId") Long examId) {
+    public ResponseEntity<List<QuestionWithKeyDTO>> findQuestionsWithKey(@PathVariable(name = "examId") Long examId) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionWithKeyDto(questionService.findByExamId(examId)));
     }
 }

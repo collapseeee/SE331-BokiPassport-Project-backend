@@ -64,4 +64,11 @@ class ExamScorerTest {
         assertFalse(ExamScorer.isPassed(3, 5, null));
         assertFalse(ExamScorer.isPassed(0, 0, 0.5));
     }
+
+    @Test
+    void aQuestionWithNoAnswerListScoresZeroInsteadOfThrowing() {
+        Question empty = Question.builder().id(1L).questionText("Question 1").build();
+
+        assertEquals(0, ExamScorer.countCorrect(List.of(empty), new HashMap<>(Map.of(1L, 10L))));
+    }
 }

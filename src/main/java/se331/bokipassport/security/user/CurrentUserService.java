@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import se331.bokipassport.entity.Level;
+import se331.bokipassport.entity.User;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class CurrentUserService {
     }
 
     public Long getCurrentLevelId() {
-        List<Level> levels = getCurrentUser().getProfile().getLevels();
+        List<Level> levels = getCurrentProfile().getLevels();
         if (levels == null) {
             return 0L;
         }
@@ -34,6 +35,14 @@ public class CurrentUserService {
                 .map(Level::getId)
                 .max(Long::compareTo)
                 .orElse(0L);
+    }
+
+    public User getCurrentProfile() {
+        User profile = getCurrentUser().getProfile();
+        if (profile == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Account has no profile");
+        }
+        return profile;
     }
 
     public boolean isAdmin() {

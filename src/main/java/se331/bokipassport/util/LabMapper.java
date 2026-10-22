@@ -50,9 +50,9 @@ public interface LabMapper {
 
     default Long maxLevelId(List<Level> levels) {
         if (levels == null || levels.isEmpty()) {
-            return null;
+            return 0L;
         }
-        return levels.stream().map(Level::getId).max(Long::compareTo).orElse(null);
+        return levels.stream().map(Level::getId).max(Long::compareTo).orElse(0L);
     }
 
     // Exams

@@ -94,4 +94,17 @@ class CurrentUserServiceTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, thrown.getStatusCode());
     }
+
+    @Test
+    void levelIdThrowsWhenTheAccountHasNoProfile() {
+        authenticateAs("boki");
+        UserAccountRepository repository = mock(UserAccountRepository.class);
+        when(repository.findByUsername("boki")).thenReturn(
+                Optional.of(UserAccount.builder().username("boki").enabled(true).roles(List.of(Role.ROLE_USER)).build()));
+        CurrentUserService service = new CurrentUserService(repository);
+
+        ResponseStatusException thrown = assertThrows(ResponseStatusException.class, service::getCurrentLevelId);
+
+        assertEquals(HttpStatus.UNAUTHORIZED, thrown.getStatusCode());
+    }
 }

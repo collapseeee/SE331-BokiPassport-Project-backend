@@ -54,7 +54,7 @@ public class ExamAttemptServiceImpl implements ExamAttemptService {
                 examLevel == null ? null : examLevel.getPassCriteria());
 
         UserAccount account = currentUserService.getCurrentUser();
-        User user = account.getProfile();
+        User user = currentUserService.getCurrentProfile();
         userExamHistoryDao.save(UserExamHistory.builder()
                 .totalScore(totalScore)
                 .isPassed(isPassed)
@@ -63,10 +63,13 @@ public class ExamAttemptServiceImpl implements ExamAttemptService {
                 .build());
 
         Long awardedLevelId = null;
-        if (isPassed && examLevelId != null) {
-            Level nextLevel = levelDao.findById(examLevelId + 1);
-            if (nextLevel != null && !user.getLevels().contains(nextLevel)) {
-                user.getLevels().add(nextLevel);
+        List<Level> userLevels = user.getLevels();
+        if (isPassed && examLevelId != null && userLevels != null) {
+            Level nextLevel = levelDao.findNextAfter(examLevelId);
+            boolean alreadyHasLevel = nextLevel != null && userLevels.stream()
+                    .anyMatch(level -> level.getId().equals(nextLevel.getId()));
+            if (nextLevel != null && !alreadyHasLevel) {
+                userLevels.add(nextLevel);
                 userDao.saveProfile(user);
                 awardedLevelId = nextLevel.getId();
             }

@@ -1,5 +1,6 @@
 package se331.bokipassport.util;
 
+import se331.bokipassport.entity.Answer;
 import se331.bokipassport.entity.Question;
 
 import java.util.List;
@@ -19,7 +20,11 @@ public final class ExamScorer {
             if (chosenAnswerId == null) {
                 continue;
             }
-            boolean isCorrect = question.getAnswerList().stream()
+            List<Answer> choices = question.getAnswerList();
+            if (choices == null) {
+                continue;
+            }
+            boolean isCorrect = choices.stream()
                     .anyMatch(answer -> chosenAnswerId.equals(answer.getId())
                             && Boolean.TRUE.equals(answer.getIsCorrect()));
             if (isCorrect) {
