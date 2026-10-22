@@ -3,11 +3,9 @@ package se331.bokipassport.util;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
 import org.springframework.data.domain.Page;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Level;
-import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.BenefitDTO;
 import se331.bokipassport.entity.dto.LevelDTO;
@@ -59,4 +57,6 @@ public interface LabMapper {
     LevelDTO getLevelDto(Level level);
     List<LevelDTO> getLevelDto(List<Level> levels);
 
+    // Image
+    StorageFileDto getStorageFileDto(String file);
 }
