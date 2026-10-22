@@ -14,5 +14,4 @@ public class AnswerWithKeyDTO {
     String answerText;
     // shortcut: this DTO exposes the answer key and is served only from /v1/admin/** to ROLE_ADMIN, upgrade to a per-request key when admins must not see the answers either
     Boolean isCorrect;
-    Long questionId;
 }

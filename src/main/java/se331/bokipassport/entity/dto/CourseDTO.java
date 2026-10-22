@@ -17,5 +17,5 @@ public class CourseDTO {
     String name;
     String description;
     String videoUrl;
-    Long levelId;
+    LevelDTO level;
 }

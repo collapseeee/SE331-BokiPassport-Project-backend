@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class AnswerDTO {
     Long id;
     String answerText;
-    Long questionId;
 }

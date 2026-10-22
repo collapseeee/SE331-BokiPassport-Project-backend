@@ -13,6 +13,6 @@ public class ExamDTO {
     Long id;
     String name;
     String description;
-    Long levelId;
+    LevelDTO level;
     Integer questionCount;
 }

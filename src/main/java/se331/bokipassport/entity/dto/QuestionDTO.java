@@ -14,6 +14,5 @@ import java.util.List;
 public class QuestionDTO {
     Long id;
     String questionText;
-    Long examId;
     List<AnswerDTO> answerChoices;
 }

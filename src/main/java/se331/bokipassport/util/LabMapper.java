@@ -30,8 +30,7 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "username", source = "username")
-    @Mapping(target = "isActive", source = "enabled")
-    @Mapping(target = "levelId", source = "profile.levels")
+    @Mapping(target = "enabled", source = "enabled")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     UserDTO getUserDto(UserAccount userAccount);
@@ -42,33 +41,21 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "username", source = "username")
-    @Mapping(target = "isActive", source = "enabled")
-    @Mapping(target = "levelId", source = "profile.levels")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     List<UserDTO> getUserDto(List<UserAccount> userAccounts);
-
-    default Long maxLevelId(List<Level> levels) {
-        if (levels == null || levels.isEmpty()) {
-            return 0L;
-        }
-        return levels.stream().map(Level::getId).max(Long::compareTo).orElse(0L);
-    }
 
     // Exams
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
-    @Mapping(target = "examId", source = "exam.id")
     List<UserExamHistoryDTO> getUserExamHistoryDto(Page<UserExamHistory> userExamHistories);
     @Mapping(target = "name", source = "exam.name")
     @Mapping(target = "description", source = "exam.description")
     @Mapping(target = "level", source = "exam.level.name")
-    @Mapping(target = "examId", source = "exam.id")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
     // Benefit
-    @Mapping(target = "levelId", source = "level.id")
     BenefitDTO getBenefitDto(Benefit benefit);
     List<BenefitDTO> getBenefitDto(List<Benefit> benefits);
     @Mapping(target = "benefits", source = "benefits")
@@ -83,33 +70,26 @@ public interface LabMapper {
 
     // Courses
     @Mapping(target = "videoUrl", source = "video")
-    @Mapping(target = "levelId", source = "level.id")
     CourseDTO getCourseDto(Course course);
     List<CourseDTO> getCourseDto(List<Course> courses);
 
     // Services
-    @Mapping(target = "levelId", source = "level.id")
     ServiceDTO getServiceDto(Service service);
     List<ServiceDTO> getServiceDto(List<Service> services);
 
     // Answers & Questions
-    @Mapping(target = "questionId", source = "question.id")
     AnswerDTO getAnswerDto(Answer answer);
-    @Mapping(target = "examId", source = "exam.id")
     @Mapping(target = "answerChoices", source = "answerList")
     QuestionDTO getQuestionDto(Question question);
     List<QuestionDTO> getQuestionDto(List<Question> questions);
 
     // Questions including the answer key - admin only
-    @Mapping(target = "questionId", source = "question.id")
     AnswerWithKeyDTO getAnswerWithKeyDto(Answer answer);
-    @Mapping(target = "examId", source = "exam.id")
     @Mapping(target = "answerChoices", source = "answerList")
     QuestionWithKeyDTO getQuestionWithKeyDto(Question question);
     List<QuestionWithKeyDTO> getQuestionWithKeyDto(List<Question> questions);
 
     // Exams
-    @Mapping(target = "levelId", source = "level.id")
     @Mapping(target = "questionCount", source = "questions")
     ExamDTO getExamDto(Exam exam);
     List<ExamDTO> getExamDto(List<Exam> exams);
