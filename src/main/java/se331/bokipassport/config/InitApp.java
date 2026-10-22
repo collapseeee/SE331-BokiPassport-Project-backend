@@ -25,6 +25,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
     final LevelRepository levelRepository;
     final CourseRepository courseRepository;
     final BadgeRepository badgeRepository;
+    final ServiceRepository serviceRepository;
     final ExamRepository examRepository;
     final QuestionRepository questionRepository;
     final UserExamHistoryRepository userExamHistoryRepository;
@@ -939,6 +940,14 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
         level4.setUsers(List.of(userAdmin, user9));
         /* Add benefits to level */
         levelRepository.saveAll(List.of(level1, level2, level3, level4));
+
+        /* Declare services */
+        serviceRepository.saveAll(List.of(
+                Service.builder().name("BokiAI Chat").level(level1).build(),
+                Service.builder().name("BokiAI Image Generation").level(level2).build(),
+                Service.builder().name("BokiAI File Assistant").level(level3).build(),
+                Service.builder().name("BokiAI Model Customizer").level(level4).build()
+        ));
         /* Add badges to users */
         badge1.setUsers(List.of(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12));
         badge2.setUsers(List.of(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12));
