@@ -8,6 +8,7 @@ import se331.bokipassport.entity.Badge;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Course;
 import se331.bokipassport.entity.Level;
+import se331.bokipassport.entity.Service;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.*;
 import se331.bokipassport.security.user.UserAccount;
@@ -63,6 +64,11 @@ public interface LabMapper {
     @Mapping(target = "levelId", source = "level.id")
     CourseDTO getCourseDto(Course course);
     List<CourseDTO> getCourseDto(List<Course> courses);
+
+    // Services
+    @Mapping(target = "levelId", source = "level.id")
+    ServiceDTO getServiceDto(Service service);
+    List<ServiceDTO> getServiceDto(List<Service> services);
 
     // Image
     StorageFileDto getStorageFileDto(String file);
