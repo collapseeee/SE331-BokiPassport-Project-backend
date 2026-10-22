@@ -13,7 +13,7 @@ public class BadgeServiceImpl implements BadgeService {
     final BadgeDao badgeDao;
 
     @Override
-    public List<Badge>  findAll() {
+    public List<Badge> findAll() {
         return badgeDao.findAll();
     }
 
