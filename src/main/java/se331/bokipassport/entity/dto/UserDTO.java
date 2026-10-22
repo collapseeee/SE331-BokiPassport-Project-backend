@@ -22,8 +22,6 @@ public class UserDTO {
     String username;
     @JsonProperty("isActive")
     Boolean enabled;
-
-    Boolean isActive;
     Long levelId;
 
     List<Role> roles;
