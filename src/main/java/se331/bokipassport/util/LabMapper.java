@@ -27,6 +27,7 @@ public interface LabMapper {
     @Mapping(target = "province", source = "profile.province")
     @Mapping(target = "image", source = "profile.image")
     @Mapping(target = "username", source = "username")
+    @Mapping(target = "enabled", source = "enabled")
     @Mapping(target = "badges", source = "profile.badges")
     @Mapping(target = "levels", source = "profile.levels")
     UserDTO getUserDto(UserAccount userAccount);
