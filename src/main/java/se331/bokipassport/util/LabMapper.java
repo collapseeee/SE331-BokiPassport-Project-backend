@@ -75,6 +75,10 @@ public interface LabMapper {
     // Answers & Questions
     @Mapping(target = "questionId", source = "question.id")
     AnswerDTO getAnswerDto(Answer answer);
+    @Mapping(target = "examId", source = "exam.id")
+    @Mapping(target = "answerChoices", source = "answerList")
+    QuestionDTO getQuestionDto(Question question);
+    List<QuestionDTO> getQuestionDto(List<Question> questions);
 
     // Image
     StorageFileDto getStorageFileDto(String file);
