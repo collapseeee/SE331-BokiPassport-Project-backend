@@ -4,10 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
+import se331.bokipassport.entity.Answer;
 import se331.bokipassport.entity.Badge;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Course;
 import se331.bokipassport.entity.Level;
+import se331.bokipassport.entity.Question;
 import se331.bokipassport.entity.Service;
 import se331.bokipassport.entity.UserExamHistory;
 import se331.bokipassport.entity.dto.*;
@@ -69,6 +71,10 @@ public interface LabMapper {
     @Mapping(target = "levelId", source = "level.id")
     ServiceDTO getServiceDto(Service service);
     List<ServiceDTO> getServiceDto(List<Service> services);
+
+    // Answers & Questions
+    @Mapping(target = "questionId", source = "question.id")
+    AnswerDTO getAnswerDto(Answer answer);
 
     // Image
     StorageFileDto getStorageFileDto(String file);
