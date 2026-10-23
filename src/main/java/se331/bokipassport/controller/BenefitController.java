@@ -2,10 +2,7 @@ package se331.bokipassport.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.dto.BenefitDTO;
 import se331.bokipassport.service.BenefitService;
@@ -21,10 +18,10 @@ public class BenefitController {
 
     @GetMapping
     ResponseEntity<List<BenefitDTO>> findAll(
-            @RequestParam(name = "levelId", required = false) Long levelId) {
-        List<Benefit> benefits = levelId == null
+            @RequestParam(name = "level", required = false) Long level) {
+        List<Benefit> benefits = level == null
                 ? benefitService.findAll()
-                : benefitService.findByLevelId(levelId);
+                : benefitService.findByLevelId(level);
         return ResponseEntity.ok(LabMapper.INSTANCE.getBenefitDto(benefits));
     }
 }
