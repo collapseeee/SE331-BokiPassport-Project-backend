@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserSearchOption;
@@ -56,11 +57,12 @@ public class UserController {
         return ResponseEntity.ok(userService.findDistinctProvinces());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/me")
     ResponseEntity<UserDTO> updateUser(
-            @PathVariable(name = "id") Long id,
+            @AuthenticationPrincipal UserAccount userAccount,
             @RequestBody UserDTO userDTO
     ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.updateUser(id, userDTO)));
+        Long profileId = userAccount.getProfile().getId();
+        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.updateUser(profileId, userDTO)));
     }
 }
