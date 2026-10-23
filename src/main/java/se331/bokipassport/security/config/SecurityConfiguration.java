@@ -45,8 +45,7 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorization -> {
               authorization
                       .requestMatchers("/v1/auth/**", "/uploadImage").permitAll()
-                      .requestMatchers(HttpMethod.PATCH, "/v1/users/**").hasRole("ADMIN")
-                      .requestMatchers(HttpMethod.PUT, "/v1/users/**").hasRole("ADMIN")
+                      .requestMatchers("/v1/admin/**").hasRole("ADMIN")
                       .anyRequest().authenticated();
             })
 
