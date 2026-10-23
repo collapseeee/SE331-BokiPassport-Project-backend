@@ -64,4 +64,12 @@ public class UserController {
     ResponseEntity<UserDTO> reactivateUser(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.reactivateUser(id)));
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<UserDTO> updateUser(
+            @PathVariable(name = "id") Long id,
+            @RequestBody UserDTO userDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.updateUser(id, userDTO)));
+    }
 }
