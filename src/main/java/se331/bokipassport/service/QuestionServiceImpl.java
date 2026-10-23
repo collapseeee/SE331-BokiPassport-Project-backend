@@ -1,5 +1,6 @@
 package se331.bokipassport.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,6 @@ import se331.bokipassport.entity.dto.QuestionDTO;
 import se331.bokipassport.security.user.UserAccount;
 import se331.bokipassport.util.ExamAccess;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,6 +74,16 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
         return questionDao.saveQuestion(question);
+    }
+
+    @Override
+    @Transactional
+    public void deleteQuestion(Long id) {
+        Question question = questionDao.findQuestionById(id);
+        if (question == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
+        }
+        questionDao.deleteQuestion(question);
     }
 
     /**

@@ -24,4 +24,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Override
     public Question saveQuestion(Question question) { return questionRepository.save(question); }
+
+    @Override
+    public void deleteQuestion(Question question) { questionRepository.delete(question); }
 }

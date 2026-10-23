@@ -45,4 +45,12 @@ public class AdminExamController {
     ) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.updateQuestion(questionId, questionDTO)));
     }
+
+    @DeleteMapping("/questions/{questionId}")
+    ResponseEntity<String> deleteQuestion(
+            @PathVariable(name = "questionId") Long questionId
+    ) {
+        questionService.deleteQuestion(questionId);
+        return ResponseEntity.ok("Removed question with id " + questionId + " successfully");
+    }
 }

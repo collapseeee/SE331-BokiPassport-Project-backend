@@ -9,4 +9,5 @@ import java.util.List;
 public interface QuestionService {
     List<Question> findByExamId(Long examId, UserAccount account);
     Question updateQuestion(Long id, QuestionDTO questionDTO);
+    void deleteQuestion(Long id);
 }
