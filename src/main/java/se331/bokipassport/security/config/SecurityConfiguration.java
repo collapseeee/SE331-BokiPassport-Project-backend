@@ -43,7 +43,7 @@ public class SecurityConfiguration {
 
             .authorizeHttpRequests(authorization -> {
               authorization
-                      .requestMatchers("/v1/auth/**").permitAll()
+                      .requestMatchers("/v1/auth/**", "/uploadImage").permitAll()
                       .anyRequest().authenticated();
             })
 
