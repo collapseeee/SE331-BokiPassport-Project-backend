@@ -46,12 +46,10 @@ public class UserServiceImpl implements UserService{
         return userDao.saveUser(user);
     }
 
-
-
     @Override
     @Transactional
     public UserAccount updateUser(Long id, UserDTO userDTO) {
         UserAccount userAccount = userDao.findUserAccountById(id);
-
+        return userDao.saveUser(userAccount);
     }
 }
