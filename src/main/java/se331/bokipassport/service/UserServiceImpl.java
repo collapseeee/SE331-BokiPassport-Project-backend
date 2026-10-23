@@ -30,6 +30,24 @@ public class UserServiceImpl implements UserService{
         return userDao.findUserAccountById(id);
     }
 
+    @Transactional
+    @Override
+    public UserAccount deactivateUser(Long id) {
+        UserAccount user = userDao.findUserAccountById(id);
+        user.setEnabled(false);
+        return userDao.saveUser(user);
+    }
+
+    @Transactional
+    @Override
+    public UserAccount reactivateUser(Long id) {
+        UserAccount user = userDao.findUserAccountById(id);
+        user.setEnabled(true);
+        return userDao.saveUser(user);
+    }
+
+
+
     @Override
     @Transactional
     public UserAccount updateUser(Long id, UserDTO userDTO) {

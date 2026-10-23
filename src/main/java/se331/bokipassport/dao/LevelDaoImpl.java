@@ -21,4 +21,9 @@ public class LevelDaoImpl implements LevelDao {
     public Level findById(Long id) {
         return levelRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Level findNextAfter(Long levelId) {
+        return levelRepository.findFirstByIdGreaterThanOrderByIdAsc(levelId).orElse(null);
+    }
 }

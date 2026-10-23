@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnBadgeDTO {
-    Long id;
-    String name;
-    String description;
+public class ExamSubmitResponse {
+    Long examId;
+    Integer totalScore;
+    Integer maxScore;
+    Boolean isPassed;
+    Long awardedLevelId;
 }

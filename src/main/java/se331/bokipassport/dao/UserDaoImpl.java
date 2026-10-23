@@ -34,13 +34,19 @@ public class UserDaoImpl implements UserDao {
         return accountRepository.findByProfile_Id(id).stream().findFirst().orElse(null);
     }
 
-    /* Save User and UserAccount for Admin Edit */
     @Override
-    public UserAccount saveUserAccount(UserAccount userAccount) {
-        return accountRepository.save(userAccount);
+    public UserAccount saveUser(UserAccount account) {
+        return accountRepository.save(account);
     }
+
     @Override
-    public User saveUser(User user) {
+    public User saveProfile(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public User findProfileById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 }

@@ -23,7 +23,7 @@ public class Level {
     List<Course> courses;
     @OneToMany(mappedBy = "level")
     List<Benefit> benefits;
-    @ManyToMany
+    @ManyToMany(mappedBy = "levels")
     List<User> users;
 
 }

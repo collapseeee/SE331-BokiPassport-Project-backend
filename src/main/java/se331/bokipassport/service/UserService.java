@@ -11,5 +11,7 @@ public interface UserService {
     Page<UserAccount> getUsers(Pageable pageable);
     Page<UserAccount> getUsers(UserSearchOption option, Pageable pageable);
     UserAccount findUserAccountById(Long id);
+    UserAccount deactivateUser(Long id);
+    UserAccount reactivateUser(Long id);
     UserAccount updateUser(Long id, UserDTO userDTO);
 }

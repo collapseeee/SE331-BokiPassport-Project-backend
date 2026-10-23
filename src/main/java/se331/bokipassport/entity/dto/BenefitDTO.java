@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class BenefitDTO {
     Long id;
     String description;
-    Long levelId;
+    LevelDTO level;
 }

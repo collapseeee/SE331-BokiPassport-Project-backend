@@ -10,6 +10,7 @@ public interface UserDao {
     Page<UserAccount> getUsers(Pageable pageable);
     Page<UserAccount> getUsers(UserSearchOption option, Pageable pageable);
     UserAccount findUserAccountById(Long id);
-    UserAccount saveUserAccount(UserAccount userAccount);
-    User saveUser(User user);
+    UserAccount saveUser(UserAccount account);
+    User saveProfile(User user);
+    User findProfileById(Long id);
 }

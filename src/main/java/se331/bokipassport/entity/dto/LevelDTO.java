@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import se331.bokipassport.entity.Benefit;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -17,6 +14,4 @@ public class LevelDTO {
     String name;
     String description;
     Double passCriteria;
-
-    List<BenefitDTO> benefits;
 }
