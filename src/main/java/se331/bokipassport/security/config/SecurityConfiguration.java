@@ -3,6 +3,7 @@ package se331.bokipassport.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,6 +34,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authorization -> {
               authorization
                       .requestMatchers("/v1/auth/**").permitAll()
+                      .requestMatchers(HttpMethod.PATCH, "/v1/users/**").hasRole("ADMIN")
+                      .requestMatchers(HttpMethod.PUT, "/v1/users/**").hasRole("ADMIN")
                       .anyRequest().authenticated();
             })
 
