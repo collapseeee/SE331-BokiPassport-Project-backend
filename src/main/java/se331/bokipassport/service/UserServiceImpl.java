@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService{
         if (Boolean.FALSE.equals(isEmptyString(userDTO.getLastName()))) {
             profile.setLastName(userDTO.getLastName());
         }
-        if  (Boolean.FALSE.equals(isEmptyString(userDTO.getUsername()))) {
+        if  (Boolean.FALSE.equals(isEmptyString(userDTO.getProvince()))) {
             profile.setProvince(userDTO.getProvince());
         }
         if (Boolean.FALSE.equals(isEmptyString(userDTO.getImage()))) {
