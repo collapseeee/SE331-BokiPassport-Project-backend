@@ -20,7 +20,7 @@ public class Question {
     @ManyToOne
     Exam exam;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     List<Answer> answerList;
 
 }

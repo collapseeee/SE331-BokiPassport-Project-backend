@@ -37,4 +37,12 @@ public class AdminExamController {
     ) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getExamDto(examService.save(examId, examDTO)));
     }
+
+    @PutMapping("/questions/{questionId}")
+    ResponseEntity<QuestionDTO> updateQuestion(
+            @PathVariable(name = "questionId") Long questionId,
+            @RequestBody QuestionDTO questionDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.updateQuestion(questionId, questionDTO)));
+    }
 }
