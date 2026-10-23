@@ -2,10 +2,8 @@ package se331.bokipassport.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import se331.bokipassport.entity.Exam;
 import se331.bokipassport.entity.dto.ExamDTO;
 import se331.bokipassport.entity.dto.QuestionDTO;
 import se331.bokipassport.security.user.UserAccount;
@@ -47,12 +45,12 @@ public class AdminExamController {
         return ResponseEntity.ok(LabMapper.INSTANCE.getExamDto(examService.save(examId, examDTO)));
     }
 
-    @PutMapping("/questions/{questionId}")
-    ResponseEntity<QuestionDTO> updateQuestion(
-            @PathVariable(name = "questionId") Long questionId,
-            @RequestBody QuestionDTO questionDTO
+    @PutMapping("/questions/{examId}")
+    ResponseEntity<List<QuestionDTO>> updateQuestion(
+            @PathVariable(name = "examId") Long examId,
+            @RequestBody List<QuestionDTO> questionDTO
     ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.updateQuestion(questionId, questionDTO)));
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAllQuestions(examId, questionDTO)));
     }
 
     @DeleteMapping("/questions/{questionId}")
