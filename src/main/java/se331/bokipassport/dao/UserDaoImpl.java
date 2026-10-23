@@ -11,6 +11,8 @@ import se331.bokipassport.repository.UserRepository;
 import se331.bokipassport.security.user.UserAccount;
 import se331.bokipassport.security.user.UserAccountRepository;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -49,4 +51,8 @@ public class UserDaoImpl implements UserDao {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<User> findDistinctProvinces() {
+        return userRepository.findDistinctProvinceByProvinceIsNotNull();
+    }
 }

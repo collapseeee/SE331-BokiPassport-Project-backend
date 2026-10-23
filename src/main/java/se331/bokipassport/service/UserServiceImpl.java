@@ -6,8 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import se331.bokipassport.dao.UserDao;
+import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.dto.UserSearchOption;
 import se331.bokipassport.security.user.UserAccount;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -45,5 +48,8 @@ public class UserServiceImpl implements UserService{
         return userDao.saveUser(user);
     }
 
-
+    @Override
+    public List<String> findDistinctProvinces() {
+        return userDao.findDistinctProvinces().stream().map(User::getProvince).distinct().toList();
+    }
 }
