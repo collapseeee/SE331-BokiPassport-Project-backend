@@ -16,6 +16,7 @@ import se331.bokipassport.entity.dto.QuestionDTO;
 import se331.bokipassport.security.user.UserAccount;
 import se331.bokipassport.util.ExamAccess;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -84,6 +85,47 @@ public class QuestionServiceImpl implements QuestionService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
         }
         questionDao.deleteQuestion(question);
+    }
+
+    @Override
+    @Transactional
+    public Question createQuestion(Long examId, QuestionDTO questionDTO) {
+        Exam exam = examDao.findById(examId);
+        if (exam == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Exam with id " + examId + " not found");
+        }
+
+        Question question = Question.builder()
+                .questionText(questionDTO.getQuestionText())
+                .exam(exam)
+                .answerList(new  ArrayList<>())
+                .build();
+
+        if (questionDTO.getAnswerChoices() != null && !questionDTO.getAnswerChoices().isEmpty()) {
+            for (AnswerDTO answerDTO : questionDTO.getAnswerChoices()) {
+                Answer answer = Answer.builder()
+                        .answerText(answerDTO.getAnswerText())
+                        .isCorrect(answerDTO.getIsCorrect())
+                        .question(question)
+                        .build();
+                question.getAnswerList().add(answer);
+            }
+        }
+        return questionDao.saveQuestion(question);
+    }
+
+    @Override
+    @Transactional
+    public List<Question> saveAllQuestions(Long examId, List<QuestionDTO> inputQuestionDTO) {
+        List<Question> savedQuestions = new ArrayList<>();
+        for (QuestionDTO questionDTO : inputQuestionDTO) {
+            if (questionDTO.getId() != null) {
+                savedQuestions.add(updateQuestion(questionDTO.getId(), questionDTO));
+            } else {
+                savedQuestions.add(createQuestion(examId, questionDTO));
+            }
+        }
+        return savedQuestions;
     }
 
     /**

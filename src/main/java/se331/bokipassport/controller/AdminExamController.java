@@ -25,9 +25,18 @@ public class AdminExamController {
     @GetMapping("/{examId}/questions")
     ResponseEntity<List<QuestionDTO>> findQuestionsWithKey(
             @AuthenticationPrincipal UserAccount account,
-            @PathVariable(name = "examId") Long examId) {
+            @PathVariable(name = "examId") Long examId
+    ) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(
                 questionService.findByExamId(examId, account)));
+    }
+
+    @PostMapping("/{examId}/questions")
+    ResponseEntity<List<QuestionDTO>> addQuestions(
+            @PathVariable(name = "examId") Long examId,
+            @RequestBody List<QuestionDTO> questionDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAllQuestions(examId, questionDTO)));
     }
 
     @PutMapping("/{examId}")
