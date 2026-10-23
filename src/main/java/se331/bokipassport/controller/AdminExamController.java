@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import se331.bokipassport.entity.Exam;
+import se331.bokipassport.entity.dto.ExamDTO;
 import se331.bokipassport.entity.dto.QuestionDTO;
 import se331.bokipassport.security.user.UserAccount;
+import se331.bokipassport.service.ExamService;
 import se331.bokipassport.service.QuestionService;
 import se331.bokipassport.util.LabMapper;
 
@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminExamController {
     final QuestionService questionService;
+    final ExamService examService;
 
     @GetMapping("/{examId}/questions")
     ResponseEntity<List<QuestionDTO>> findQuestionsWithKey(
@@ -27,5 +28,13 @@ public class AdminExamController {
             @PathVariable(name = "examId") Long examId) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(
                 questionService.findByExamId(examId, account)));
+    }
+
+    @PutMapping("/{examId}")
+    ResponseEntity<ExamDTO> updateExam(
+            @PathVariable(name = "examId") Long examId,
+            @RequestBody ExamDTO examDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getExamDto(examService.save(examId, examDTO)));
     }
 }
