@@ -45,7 +45,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question updateQuestion(Long id, QuestionDTO questionDTO) {
+    public Question saveQuestion(Long id, QuestionDTO questionDTO) {
         Question question = questionDao.findQuestionById(id);
         if (question == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
@@ -120,7 +120,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question> savedQuestions = new ArrayList<>();
         for (QuestionDTO questionDTO : inputQuestionDTO) {
             if (questionDTO.getId() != null) {
-                savedQuestions.add(updateQuestion(questionDTO.getId(), questionDTO));
+                savedQuestions.add(saveQuestion(questionDTO.getId(), questionDTO));
             } else {
                 savedQuestions.add(createQuestion(examId, questionDTO));
             }
