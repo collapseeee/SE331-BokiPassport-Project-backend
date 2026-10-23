@@ -45,8 +45,10 @@ public interface LabMapper {
     @Mapping(target = "levels", source = "profile.levels")
     List<UserDTO> getUserDto(List<UserAccount> userAccounts);
 
-    // Exam history - the exam is nested, not referenced by id
     List<UserExamHistoryDTO> getUserExamHistoryDto(Page<UserExamHistory> userExamHistories);
+    @Mapping(target = "name", source = "exam.name")
+    @Mapping(target = "description", source = "exam.description")
+    @Mapping(target = "level", source = "exam.level.name")
     UserExamHistoryDTO getUserOwnExamHistoryDto(UserExamHistory userExamHistory);
 
     // Benefit
