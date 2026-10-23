@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService{
     public UserAccount updateUser(Long id, UserDTO userDTO) {
         UserAccount userAccount = userDao.findUserAccountById(id);
         return userDao.saveUser(userAccount);
+    }
     public List<String> findDistinctProvinces() {
         return userDao.findDistinctProvinces().stream().map(User::getProvince).distinct().toList();
     }
