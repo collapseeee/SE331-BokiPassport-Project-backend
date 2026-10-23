@@ -7,4 +7,5 @@ import java.util.List;
 public interface LevelDao {
     List<Level> findAll();
     Level findById(Long id);
+    Level findNextAfter(Long levelId);
 }

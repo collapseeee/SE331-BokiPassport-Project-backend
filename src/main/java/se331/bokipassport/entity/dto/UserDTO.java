@@ -24,6 +24,6 @@ public class UserDTO {
     Boolean enabled;
 
     List<Role> roles;
-    List<UserOwnBadgeDTO> badges;
-    List<UserOwnLevelDTO> levels;
+    List<BadgeDTO> badges;
+    List<LevelDTO> levels;
 }

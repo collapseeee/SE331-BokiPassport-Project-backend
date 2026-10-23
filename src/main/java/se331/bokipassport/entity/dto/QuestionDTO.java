@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnLevelDTO {
+public class QuestionDTO {
     Long id;
-    String name;
+    String questionText;
+    List<AnswerDTO> answerChoices;
 }

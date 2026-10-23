@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.dto.UserSearchOption;
 import se331.bokipassport.repository.UserRepository;
 import se331.bokipassport.security.user.UserAccount;
@@ -36,6 +37,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserAccount saveUser(UserAccount account) {
         return accountRepository.save(account);
+    }
+
+    @Override
+    public User saveProfile(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findProfileById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
 }

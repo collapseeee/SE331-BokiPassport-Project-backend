@@ -18,7 +18,7 @@ public class Exam {
     String name;
     String description;
 
-    @OneToOne
+    @ManyToOne
     Level level;
 
     @OneToMany(mappedBy = "exam")
