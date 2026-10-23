@@ -51,6 +51,11 @@ public class UserController {
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.findUserAccountById(id)));
     }
 
+    @GetMapping("/provinces")
+    ResponseEntity<List<String>> findProvince() {
+        return ResponseEntity.ok(userService.findDistinctProvinces());
+    }
+
     @PatchMapping("/{id}/deactivate")
     ResponseEntity<UserDTO> deactivateUser(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.deactivateUser(id)));
