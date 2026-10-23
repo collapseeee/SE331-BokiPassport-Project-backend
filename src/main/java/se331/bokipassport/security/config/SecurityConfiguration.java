@@ -13,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -30,17 +33,25 @@ public class SecurityConfiguration {
     http
             .cors(Customizer.withDefaults() )
             .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(request -> {
+                var config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of("http://localhost:5173"));
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(List.of("*"));
+                config.setAllowCredentials(true);
+                return config;
+            }))
 
             .authorizeHttpRequests(authorization -> {
               authorization
-                      .requestMatchers("/v1/auth/**").permitAll()
+                      .requestMatchers("/v1/auth/**", "/uploadImage").permitAll()
                       .requestMatchers(HttpMethod.PATCH, "/v1/users/**").hasRole("ADMIN")
                       .requestMatchers(HttpMethod.PUT, "/v1/users/**").hasRole("ADMIN")
                       .anyRequest().authenticated();
             })
 
 
-            .sessionManagement(session ->{
+            .sessionManagement(session -> {
               session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             })
 
