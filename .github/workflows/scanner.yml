@@ -43,10 +43,12 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Copy application-local.yml
         run: |
-          ls -al
-          pwd
+          echo "Before copying files"
+          ls -al src/main/resources
           mkdir -p src/main/resources
           echo "${{ secrets.MOCK_SUPABASE_YML }}" > src/main/resources/application-local.yml
+          echo "After copied files"
+          ls -al src/main/resources
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
