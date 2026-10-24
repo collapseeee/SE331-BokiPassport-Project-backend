@@ -14,13 +14,13 @@ import se331.bokipassport.util.LabMapper;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/admin/exams")
+@RequestMapping("/v1/exams")
 @AllArgsConstructor
 public class AdminExamController {
     final QuestionService questionService;
     final ExamService examService;
 
-    @GetMapping("/{examId}/questions")
+    @GetMapping("/{examId}/questionsWithKey")
     ResponseEntity<List<QuestionDTO>> findQuestionsWithKey(
             @AuthenticationPrincipal UserAccount account,
             @PathVariable(name = "examId") Long examId
