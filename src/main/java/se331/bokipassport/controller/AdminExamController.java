@@ -2,6 +2,7 @@ package se331.bokipassport.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import se331.bokipassport.entity.dto.ExamDTO;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/exams")
 @AllArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminExamController {
     final QuestionService questionService;
     final ExamService examService;
