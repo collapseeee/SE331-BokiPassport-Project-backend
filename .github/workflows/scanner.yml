@@ -1,7 +1,8 @@
 name: Sonar Scanner
+
 on:
   push:
-    branches: ['main', 'develop'. 'prod']
+    branches: ['main', 'develop', 'prod']
 
 jobs:
   build:
