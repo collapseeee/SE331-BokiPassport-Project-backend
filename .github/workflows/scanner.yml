@@ -41,6 +41,10 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Copy application-local.yml
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.MOCK_SUPABASE_YML }}" > src/main/resources/application-local.yml
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
