@@ -24,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 public class SupabaseStorageService {
     @Value("${supabase.storage.bucket}")
     String bucketName;
-    @Value("${supabase.storage.endpoint_output}")
-    String outputUrl;
+/*    @Value("${supabase.storage.endpoint_output}")
+    String outputUrl;*/
     
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddmmssSSS");
     private final S3Client s3Client;
