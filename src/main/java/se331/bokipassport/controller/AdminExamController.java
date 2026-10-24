@@ -58,6 +58,6 @@ public class AdminExamController {
             @PathVariable(name = "questionId") Long questionId
     ) {
         questionService.deleteQuestion(questionId);
-        return ResponseEntity.ok("Removed question with id " + questionId + " successfully");
+        return ResponseEntity.noContent().build();
     }
 }
