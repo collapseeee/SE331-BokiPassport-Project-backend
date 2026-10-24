@@ -8,7 +8,7 @@ import se331.bokipassport.service.UserService;
 import se331.bokipassport.util.LabMapper;
 
 @RestController
-@RequestMapping("/v1/admin/users")
+@RequestMapping("/v1/users")
 @AllArgsConstructor
 public class AdminUserController {
     final UserService userService;
