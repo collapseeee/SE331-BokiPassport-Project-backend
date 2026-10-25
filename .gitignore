@@ -36,6 +36,16 @@ build/
 ### .env ###
 **/.env*
 !.env.example
+.ua
+.claude
+.sameignore
+.same
+/welcome
+.mcp.json
+
+### superpowers scratch ###
+.superpowers/
+docs
 # SAME — Privacy-first .gitignore
 # Three tiers: system (never commit), private (never index), local-only (indexed but not committed)
 

@@ -5,17 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnExamHistoryDTO {
+public class BadgeDTO {
     Long id;
-    Instant createdAt;
-    Integer totalScore;
-    Boolean isPassed;
-
-    UserOwnExamDTO examList;
+    String name;
+    String description;
 }
