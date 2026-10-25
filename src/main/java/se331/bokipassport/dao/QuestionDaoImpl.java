@@ -13,7 +13,18 @@ public class QuestionDaoImpl implements QuestionDao {
     final QuestionRepository questionRepository;
 
     @Override
+    public Question findQuestionById(Long id) {
+        return questionRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<Question> findByExamId(Long examId) {
         return questionRepository.findByExam_Id(examId);
     }
+
+    @Override
+    public Question saveQuestion(Question question) { return questionRepository.save(question); }
+
+    @Override
+    public void deleteQuestion(Question question) { questionRepository.delete(question); }
 }

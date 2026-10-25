@@ -4,9 +4,12 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import se331.bokipassport.dao.UserDao;
 import se331.bokipassport.entity.User;
+import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserSearchOption;
 import se331.bokipassport.security.user.UserAccount;
 
@@ -49,7 +52,40 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
+    public UserAccount updateUser(Long id, UserDTO userDTO) {
+        UserAccount userAccount = userDao.findUserAccountById(id);
+        if (userAccount == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "User with id " + id + " not found"
+            );
+        }
+
+        User profile = userAccount.getProfile();
+        if (profile == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "User with id " + id + "'s profile not found"
+            );
+        }
+        if (Boolean.FALSE.equals(isEmptyString(userDTO.getFirstName()))) {
+            profile.setFirstName(userDTO.getFirstName());
+        }
+        if (Boolean.FALSE.equals(isEmptyString(userDTO.getLastName()))) {
+            profile.setLastName(userDTO.getLastName());
+        }
+        if  (Boolean.FALSE.equals(isEmptyString(userDTO.getProvince()))) {
+            profile.setProvince(userDTO.getProvince());
+        }
+        if (Boolean.FALSE.equals(isEmptyString(userDTO.getImage()))) {
+            profile.setImage(userDTO.getImage());
+        }
+        return userDao.saveUser(userAccount);
+    }
     public List<String> findDistinctProvinces() {
         return userDao.findDistinctProvinces().stream().map(User::getProvince).distinct().toList();
+    }
+
+    public Boolean isEmptyString(String string) {
+        return string == null || string.isEmpty();
     }
 }
