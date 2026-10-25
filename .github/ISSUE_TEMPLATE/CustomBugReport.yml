@@ -1,0 +1,74 @@
+name: Bug Report
+description: Report an encountered bug here!
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - Backend - Auth & Security
+        - Backend - Admin APIs
+        - Backend - User APIs
+        - Backend - Entity & JPA
+        - Backend - S3 Integration
+        - Deployment
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to ....
+        2. Click ....
+        3. Refresh ....
+    validations:
+      required: true
+  - type: input
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: Ideal output.
+    validations:
+      required: true
+  - type: input
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: Actual output.
+    validations:
+      required: true
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots / Logs
+      description: Add visual evidence, terminal output, or logs here.
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical (app crashes / data loss)
+        - High (feature broken)
+        - Medium (feature partially works)
+        - Low (cosmetic / minor)
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Windows
+        - MacOS
+        - Linux
+    validations:
+      required: true
+  - type: input
+    id: endpoint
+    attributes:
+      label: API Endpoint (if applicable)
+      placeholder: ex. POST /api/v1/auth/register
+  

@@ -1,0 +1,75 @@
+name: Feature Request
+title: '[FEATURE]: '
+description: 'Request a new feature, task, or enhancement here!'
+labels: ['enhancement']
+assignees: 
+  - Krittameth
+  - Nattikorn
+  - Apitawan
+body:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      description: Which part of the project does this task belong to?
+      options:
+        - Backend - Entity & JPA
+        - Backend - Auth & Security
+        - Backend - Admin APIs
+        - Backend - User APIs
+        - Backend - S3 Integration
+        - Backend - Mock Data
+        - Deployment
+        - Documentation
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High (blocks other tasks)
+        - Medium (needed for deadline)
+        - Low (nice to have)
+    validations:
+      required: true
+  - type: input
+    id: problem-statement
+    attributes:
+      label: Task Description
+      description: What needs to be done? (e.g., "Implement User entity with JPA relationships")
+    validations:
+      required: true
+  - type: input
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: How should this be implemented? (e.g., "Create User entity, UserRepository, UserService, UserController with Mapstruct mapper")
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What proves this task is complete?
+      placeholder: |
+        - Entity created with proper JPA annotations
+        - Repository extends JpaRepository
+        - Service layer separated from controller
+        - DTO used instead of raw entity
+        - Tested with curl/Postman
+    validations:
+      required: true
+  - type: textarea
+    id: endpoints
+    attributes:
+      label: API Endpoints (if backend task)
+      description: List the endpoints this task should provide
+      placeholder: |
+        - GET /api/v1/admin/users (paginated)
+        - POST /api/v1/auth/register
+  - type: textarea
+    id: note
+    attributes:
+      label: Additional Notes
+      placeholder: ex. depends on User entity, use Mapstruct 1.6.3, check TODO.md for details
