@@ -2,15 +2,17 @@ services:
   db:
     image: postgres:18-alpine3.24
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+      POSTGRES_DB: bokipassportdb
     volumes:
       - pgdata:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg-isready -U postgres -d ${DB_NAME}"]
+      test:
+        ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "postgres", "-d", "bokipassportdb"]
+      start_period: 60s
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     restart: unless-stopped
 
   adminer:
