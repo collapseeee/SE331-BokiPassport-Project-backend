@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:18-alpine3.24
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:bokiPassport@123}
       POSTGRES_DB: bokipassportdb
     volumes:
       - pgdata:/var/lib/postgresql
