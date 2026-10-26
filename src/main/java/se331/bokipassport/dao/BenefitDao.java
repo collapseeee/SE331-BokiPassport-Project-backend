@@ -7,4 +7,6 @@ import java.util.List;
 public interface BenefitDao {
     List<Benefit> findAll();
     List<Benefit> findByLevelId(Long levelId);
+    Benefit findById(Long id);
+    Benefit save(Benefit benefit);
 }
