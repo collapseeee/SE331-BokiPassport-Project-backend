@@ -8,4 +8,5 @@ public interface LevelDao {
     List<Level> findAll();
     Level findById(Long id);
     Level findNextAfter(Long levelId);
+    Level save(Level level);
 }
