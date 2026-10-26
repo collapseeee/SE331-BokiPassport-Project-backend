@@ -28,7 +28,7 @@ services:
     env_file: .env
     environment:
       SPRING_PROFILES_ACTIVE: DB
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bokipassport
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       DB_PORT: ${DB_PORT}
