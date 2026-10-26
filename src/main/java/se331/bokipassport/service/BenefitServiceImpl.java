@@ -35,7 +35,8 @@ public class BenefitServiceImpl implements BenefitService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Level with id" + benefitDTO.getLevel().getId() + " not found");
         }
 
-        Benefit existedBenefit = benefitDao.findById(benefitDTO.getId());
+        Benefit existedBenefit = benefitDTO.getId() == null ?
+                null : benefitDao.findById(benefitDTO.getId());
         Benefit newBenefit = new Benefit(null, benefitDTO.getDescription(), level);
         if (existedBenefit != null) {
             newBenefit.setId(existedBenefit.getId());
