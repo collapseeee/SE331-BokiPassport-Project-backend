@@ -19,8 +19,8 @@ public class AdminLevelController {
     final BenefitService benefitService;
 
     /* Benefits */
-    @PostMapping("/{levelId}/benefits")
-    ResponseEntity<List<BenefitDTO>> addBenefits(
+    @PutMapping("/{levelId}/benefits")
+    ResponseEntity<List<BenefitDTO>> saveBenefits(
             @PathVariable(name = "levelId") Long levelId,
             @RequestBody List<BenefitDTO> benefitDTOs
     ) {
