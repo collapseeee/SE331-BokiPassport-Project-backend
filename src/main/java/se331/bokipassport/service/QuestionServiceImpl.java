@@ -74,7 +74,7 @@ public class QuestionServiceImpl implements QuestionService {
                 }
             }
         }
-        return questionDao.saveQuestion(question);
+        return questionDao.save(question);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (question == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
         }
-        questionDao.deleteQuestion(question);
+        questionDao.delete(question);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.getAnswerList().add(answer);
             }
         }
-        return questionDao.saveQuestion(question);
+        return questionDao.save(question);
     }
 
     @Override
