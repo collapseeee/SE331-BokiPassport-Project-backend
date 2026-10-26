@@ -22,23 +22,7 @@ public class AdminExamController {
     final QuestionService questionService;
     final ExamService examService;
 
-    @GetMapping("/{examId}/questionsWithKey")
-    ResponseEntity<List<QuestionDTO>> findQuestionsWithKey(
-            @AuthenticationPrincipal UserAccount account,
-            @PathVariable(name = "examId") Long examId
-    ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(
-                questionService.findByExamId(examId, account)));
-    }
-
-    @PostMapping("/{examId}/questions")
-    ResponseEntity<List<QuestionDTO>> addQuestions(
-            @PathVariable(name = "examId") Long examId,
-            @RequestBody List<QuestionDTO> questionDTO
-    ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
-    }
-
+    /* Exams */
     @PutMapping("/{examId}")
     ResponseEntity<ExamDTO> updateExam(
             @PathVariable(name = "examId") Long examId,
@@ -47,6 +31,22 @@ public class AdminExamController {
         return ResponseEntity.ok(LabMapper.INSTANCE.getExamDto(examService.save(examId, examDTO)));
     }
 
+    /* Questions */
+    @GetMapping("/{examId}/questionsWithKey")
+    ResponseEntity<List<QuestionDTO>> findQuestionsWithKey(
+            @AuthenticationPrincipal UserAccount account,
+            @PathVariable(name = "examId") Long examId
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(
+                questionService.findByExamId(examId, account)));
+    }
+    @PostMapping("/{examId}/questions")
+    ResponseEntity<List<QuestionDTO>> addQuestions(
+            @PathVariable(name = "examId") Long examId,
+            @RequestBody List<QuestionDTO> questionDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
+    }
     @PutMapping("/questions/{examId}")
     ResponseEntity<List<QuestionDTO>> updateQuestion(
             @PathVariable(name = "examId") Long examId,
@@ -54,7 +54,6 @@ public class AdminExamController {
     ) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
     }
-
     @DeleteMapping("/questions/{questionId}")
     ResponseEntity<Void> deleteQuestion(
             @PathVariable(name = "questionId") Long questionId
