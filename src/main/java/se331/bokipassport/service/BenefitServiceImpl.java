@@ -1,5 +1,6 @@
 package se331.bokipassport.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.dto.BenefitDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,6 +65,20 @@ public class BenefitServiceImpl implements BenefitService {
             benefit.setLevel(newLevel);
         }
         return benefitDao.save(benefit);
+    }
+
+    @Override
+    @Transactional
+    public List<Benefit> saveAll(Long levelId, List<BenefitDTO> inputBenefitDTOs) {
+        List<Benefit> savedBenefits = new ArrayList<>();
+        for (BenefitDTO benefitDTO : inputBenefitDTOs) {
+            if (benefitDTO.getId() != null) {
+                savedBenefits.add(save(benefitDTO.getId(), benefitDTO));
+            } else {
+                savedBenefits.add(create(levelId, benefitDTO));
+            }
+        }
+        return savedBenefits;
     }
 
     private boolean isEmpty(String string) {

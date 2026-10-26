@@ -9,5 +9,6 @@ public interface BenefitService {
     List<Benefit> findAll();
     List<Benefit> findByLevelId(Long levelId);
     Benefit save(Long benefitId, BenefitDTO benefitDTO);
+    List<Benefit> saveAll(Long levelId, List<BenefitDTO> benefitDTOs);
     Benefit create(Long levelId, BenefitDTO benefitDTO);
 }
