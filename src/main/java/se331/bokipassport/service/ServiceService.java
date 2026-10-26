@@ -10,5 +10,6 @@ public interface ServiceService {
     List<Service> findByLevelId(Long levelId);
     Service create(Long levelId, ServiceDTO serviceDTO);
     Service save(Long serviceId, ServiceDTO serviceDTO);
+    List<Service> saveAll(Long levelId, List<ServiceDTO> serviceDTOList);
     void delete(Long id);
 }

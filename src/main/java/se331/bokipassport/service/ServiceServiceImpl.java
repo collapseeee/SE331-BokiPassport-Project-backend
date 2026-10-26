@@ -10,6 +10,7 @@ import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.Service;
 import se331.bokipassport.entity.dto.ServiceDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,6 +59,21 @@ public class ServiceServiceImpl implements ServiceService {
             service.setLevel(levelDao.findById(serviceDTO.getLevel().getId()));
         }
         return serviceDao.save(service);
+    }
+
+    @Override
+    public List<Service> saveAll(Long levelId, List<ServiceDTO> inputServiceDTOs) {
+        List<Service> savedService = new ArrayList<>();
+        for (ServiceDTO serviceDTO : inputServiceDTOs) {
+            if (serviceDTO.getId() != null) {
+                // existed service with id.
+                savedService.add(save(levelId, serviceDTO));
+            } else {
+                // new service without id.
+                savedService.add(create(levelId, serviceDTO));
+            }
+        }
+        return savedService;
     }
 
     @Override
