@@ -45,7 +45,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question saveQuestion(Long id, QuestionDTO questionDTO) {
+    public Question save(Long id, QuestionDTO questionDTO) {
         Question question = questionDao.findQuestionById(id);
         if (question == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
@@ -74,22 +74,22 @@ public class QuestionServiceImpl implements QuestionService {
                 }
             }
         }
-        return questionDao.saveQuestion(question);
+        return questionDao.save(question);
     }
 
     @Override
     @Transactional
-    public void deleteQuestion(Long id) {
+    public void delete(Long id) {
         Question question = questionDao.findQuestionById(id);
         if (question == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
         }
-        questionDao.deleteQuestion(question);
+        questionDao.delete(question);
     }
 
     @Override
     @Transactional
-    public Question createQuestion(Long examId, QuestionDTO questionDTO) {
+    public Question create(Long examId, QuestionDTO questionDTO) {
         Exam exam = examDao.findById(examId);
         if (exam == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Exam with id " + examId + " not found");
@@ -111,18 +111,18 @@ public class QuestionServiceImpl implements QuestionService {
                 question.getAnswerList().add(answer);
             }
         }
-        return questionDao.saveQuestion(question);
+        return questionDao.save(question);
     }
 
     @Override
     @Transactional
-    public List<Question> saveAllQuestions(Long examId, List<QuestionDTO> inputQuestionDTO) {
+    public List<Question> saveAll(Long examId, List<QuestionDTO> inputQuestionDTO) {
         List<Question> savedQuestions = new ArrayList<>();
         for (QuestionDTO questionDTO : inputQuestionDTO) {
             if (questionDTO.getId() != null) {
-                savedQuestions.add(saveQuestion(questionDTO.getId(), questionDTO));
+                savedQuestions.add(save(questionDTO.getId(), questionDTO));
             } else {
-                savedQuestions.add(createQuestion(examId, questionDTO));
+                savedQuestions.add(create(examId, questionDTO));
             }
         }
         return savedQuestions;

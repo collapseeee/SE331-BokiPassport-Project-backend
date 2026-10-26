@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface QuestionService {
     List<Question> findByExamId(Long examId, UserAccount account);
-    Question saveQuestion(Long id, QuestionDTO questionDTO);
-    List<Question> saveAllQuestions(Long examId, List<QuestionDTO> questionDTO);
-    Question createQuestion(Long examId, QuestionDTO questionDTO);
-    void deleteQuestion(Long id);
+    Question save(Long id, QuestionDTO questionDTO);
+    List<Question> saveAll(Long examId, List<QuestionDTO> questionDTO);
+    Question create(Long examId, QuestionDTO questionDTO);
+    void delete(Long id);
 }

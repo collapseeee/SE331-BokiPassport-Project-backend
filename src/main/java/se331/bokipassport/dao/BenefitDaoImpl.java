@@ -21,4 +21,15 @@ public class BenefitDaoImpl implements BenefitDao {
     public List<Benefit> findByLevelId(Long levelId) {
         return benefitRepository.findByLevel_Id(levelId);
     }
+
+    @Override
+    public Benefit findById(Long id) {
+        return benefitRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Benefit save(Benefit benefit) { return benefitRepository.save(benefit); }
+
+    @Override
+    public void delete(Benefit benefit) { benefitRepository.delete(benefit); }
 }
