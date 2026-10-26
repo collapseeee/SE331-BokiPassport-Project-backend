@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import se331.bokipassport.entity.Level;
 import se331.bokipassport.entity.dto.BenefitDTO;
+import se331.bokipassport.entity.dto.LevelDTO;
 import se331.bokipassport.service.BenefitService;
+import se331.bokipassport.service.LevelService;
 import se331.bokipassport.util.LabMapper;
 
 import java.util.List;
@@ -14,9 +17,19 @@ import java.util.List;
 @RequestMapping("/v1/levels")
 @AllArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
-/* Level Controller for admin includes Benefits, Service, and Pass Criteria of a level. */
+/* Level Controller for admin includes Benefits, Service, and Level itself. */
 public class AdminLevelController {
     final BenefitService benefitService;
+    final LevelService levelService;
+
+    /* Levels */
+    @PutMapping("/{levelId}")
+    ResponseEntity<LevelDTO> updateLevel(
+            @PathVariable(name = "levelId") Long levelId,
+            @RequestBody LevelDTO levelDTO
+    ) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getLevelDto(levelService.save(levelId, levelDTO)));
+    }
 
     /* Benefits */
     @PutMapping("/{levelId}/benefits")
