@@ -11,8 +11,8 @@ spring:
       enabled: true
   datasource:
     url: jdbc:postgresql://db:5432/bokipassport
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: postgres
+    password: bokiPassport@123
   jpa:
     hibernate:
       ddl-auto: create
