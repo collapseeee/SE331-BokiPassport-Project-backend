@@ -40,15 +40,8 @@ public class AdminExamController {
         return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(
                 questionService.findByExamId(examId, account)));
     }
-    @PostMapping("/{examId}/questions")
-    ResponseEntity<List<QuestionDTO>> addQuestions(
-            @PathVariable(name = "examId") Long examId,
-            @RequestBody List<QuestionDTO> questionDTO
-    ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
-    }
-    @PutMapping("/questions/{examId}")
-    ResponseEntity<List<QuestionDTO>> updateQuestion(
+    @PutMapping("/{examId}/questions")
+    ResponseEntity<List<QuestionDTO>> saveQuestions(
             @PathVariable(name = "examId") Long examId,
             @RequestBody List<QuestionDTO> questionDTO
     ) {
