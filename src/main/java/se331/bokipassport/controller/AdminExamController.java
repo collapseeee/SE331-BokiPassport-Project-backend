@@ -36,7 +36,7 @@ public class AdminExamController {
             @PathVariable(name = "examId") Long examId,
             @RequestBody List<QuestionDTO> questionDTO
     ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAllQuestions(examId, questionDTO)));
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
     }
 
     @PutMapping("/{examId}")
@@ -52,14 +52,14 @@ public class AdminExamController {
             @PathVariable(name = "examId") Long examId,
             @RequestBody List<QuestionDTO> questionDTO
     ) {
-        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAllQuestions(examId, questionDTO)));
+        return ResponseEntity.ok(LabMapper.INSTANCE.getQuestionDto(questionService.saveAll(examId, questionDTO)));
     }
 
     @DeleteMapping("/questions/{questionId}")
     ResponseEntity<String> deleteQuestion(
             @PathVariable(name = "questionId") Long questionId
     ) {
-        questionService.deleteQuestion(questionId);
+        questionService.delete(questionId);
         return ResponseEntity.noContent().build();
     }
 }
