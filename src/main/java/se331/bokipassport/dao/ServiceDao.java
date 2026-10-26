@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface ServiceDao {
     List<Service> findAll();
+    List<Service> findByLevelId(Long levelId);
+    Service findById(Long id);
+    Service save(Service service);
+    void delete(Service service);
 }
