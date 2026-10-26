@@ -56,7 +56,7 @@ public class AdminExamController {
     }
 
     @DeleteMapping("/questions/{questionId}")
-    ResponseEntity<String> deleteQuestion(
+    ResponseEntity<Void> deleteQuestion(
             @PathVariable(name = "questionId") Long questionId
     ) {
         questionService.delete(questionId);

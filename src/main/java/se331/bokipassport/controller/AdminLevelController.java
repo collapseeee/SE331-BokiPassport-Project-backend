@@ -27,7 +27,7 @@ public class AdminLevelController {
         return ResponseEntity.ok(LabMapper.INSTANCE.getBenefitDto(benefitService.saveAll(levelId ,benefitDTOs)));
     }
     @DeleteMapping("/benefits/{benefitId}")
-    ResponseEntity<?> deleteBenefits(
+    ResponseEntity<Void> deleteBenefits(
             @PathVariable(name = "benefitId")  Long benefitId
     ) {
         benefitService.delete(benefitId);
