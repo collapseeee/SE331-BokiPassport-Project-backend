@@ -9,4 +9,5 @@ public interface BenefitDao {
     List<Benefit> findByLevelId(Long levelId);
     Benefit findById(Long id);
     Benefit save(Benefit benefit);
+    void delete(Benefit benefit);
 }

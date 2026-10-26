@@ -81,6 +81,15 @@ public class BenefitServiceImpl implements BenefitService {
         return savedBenefits;
     }
 
+    @Override
+    public void delete(Long benefitId) {
+        Benefit benefit = benefitDao.findById(benefitId);
+        if (benefit == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benefit with id " + benefitId + " not found");
+        }
+        benefitDao.delete(benefit);
+    }
+
     private boolean isEmpty(String string) {
         return  string == null || string.isEmpty();
     }

@@ -29,4 +29,7 @@ public class BenefitDaoImpl implements BenefitDao {
 
     @Override
     public Benefit save(Benefit benefit) { return benefitRepository.save(benefit); }
+
+    @Override
+    public void delete(Benefit benefit) { benefitRepository.delete(benefit); }
 }
