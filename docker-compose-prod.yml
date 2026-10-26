@@ -2,8 +2,8 @@ services:
   db:
     image: postgres:18-alpine3.24
     environment:
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      POSTGRES_DB: bokipassportdb
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: bokipassport
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
