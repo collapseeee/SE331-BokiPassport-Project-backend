@@ -7,4 +7,5 @@ import java.util.List;
 public interface CourseDao {
     List<Course> findAll();
     Course findById(Long id);
+    Course save(Course course);
 }
