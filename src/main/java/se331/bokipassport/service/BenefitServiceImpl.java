@@ -29,6 +29,20 @@ public class BenefitServiceImpl implements BenefitService {
     }
 
     @Override
+    public Benefit create(Long levelId, BenefitDTO benefitDTO) {
+        Level level = levelDao.findById(levelId);
+        if (level == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Level not found with id: " + levelId + " not found");
+        }
+
+        Benefit benefit = Benefit.builder()
+                .description(benefitDTO.getDescription())
+                .level(level)
+                .build();
+        return benefitDao.save(benefit);
+    }
+
+    @Override
     public Benefit save(Long benefitId, BenefitDTO benefitDTO) {
         Benefit benefit = benefitDao.findById(benefitId);
         if (benefit == null) {
