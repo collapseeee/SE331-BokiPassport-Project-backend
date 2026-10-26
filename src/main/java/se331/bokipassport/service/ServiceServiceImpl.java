@@ -67,7 +67,7 @@ public class ServiceServiceImpl implements ServiceService {
         for (ServiceDTO serviceDTO : inputServiceDTOs) {
             if (serviceDTO.getId() != null) {
                 // existed service with id.
-                savedService.add(save(levelId, serviceDTO));
+                savedService.add(save(serviceDTO.getId(), serviceDTO));
             } else {
                 // new service without id.
                 savedService.add(create(levelId, serviceDTO));
