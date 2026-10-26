@@ -29,24 +29,26 @@ public class BenefitServiceImpl implements BenefitService {
     }
 
     @Override
-    public Benefit save(BenefitDTO benefitDTO) {
-        Level level = levelDao.findById(benefitDTO.getLevel().getId());
+    public Benefit save(Long benefitId, BenefitDTO benefitDTO) {
+        Benefit benefit = benefitDao.findById(benefitId);
+        if (benefit == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Benefit with id " + benefitId + " not found");
+        }
+        Level level = levelDao.findById(benefit.getLevel().getId());
         if (level == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Level with id" + benefitDTO.getLevel().getId() + " not found");
         }
-
-        Benefit existedBenefit = benefitDTO.getId() == null ?
-                null : benefitDao.findById(benefitDTO.getId());
-        Benefit newBenefit = new Benefit(null, benefitDTO.getDescription(), level);
-        if (existedBenefit != null) {
-            newBenefit.setId(existedBenefit.getId());
-            if (isEmpty(benefitDTO.getDescription())) { // If incoming benefit description is "" or null, use the existed one.
-                newBenefit.setDescription(existedBenefit.getDescription());
-            } else {
-                newBenefit.setDescription(benefitDTO.getDescription());
-            }
+        benefit.setId(benefit.getId());
+        if (!isEmpty(benefitDTO.getDescription())) {
+            // If incoming benefit description is not "" or null, use the incoming one.
+            benefit.setDescription(benefitDTO.getDescription());
         }
-        return benefitDao.save(newBenefit);
+        if (benefitDTO.getLevel() != null && benefit.getLevel().getId().equals(level.getId())) {
+            // If incoming benefit's level is not null and it differs from the existed one. use the incoming one.
+            Level newLevel = levelDao.findById(benefitDTO.getLevel().getId());
+            benefit.setLevel(newLevel);
+        }
+        return benefitDao.save(benefit);
     }
 
     private boolean isEmpty(String string) {

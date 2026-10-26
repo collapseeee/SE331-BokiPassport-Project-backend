@@ -8,5 +8,5 @@ import java.util.List;
 public interface BenefitService {
     List<Benefit> findAll();
     List<Benefit> findByLevelId(Long levelId);
-    Benefit save(BenefitDTO benefitDTO);
+    Benefit save(Long benefitId, BenefitDTO benefitDTO);
 }
