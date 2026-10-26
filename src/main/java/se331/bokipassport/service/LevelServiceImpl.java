@@ -39,7 +39,7 @@ public class LevelServiceImpl implements LevelService {
         if (Boolean.FALSE.equals(isEmpty(levelDTO.getDescription()))) {
             level.setDescription(levelDTO.getDescription());
         }
-        if (Boolean.FALSE.equals(levelDTO.getPassCriteria())) {
+        if (levelDTO.getPassCriteria() != null) {
             level.setPassCriteria(levelDTO.getPassCriteria());
         }
         return levelDao.save(level);
