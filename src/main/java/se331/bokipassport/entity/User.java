@@ -29,4 +29,9 @@ public class User {
 
     @ManyToMany
     List<Level> levels;
+
+    public void addBadge(Badge badge) {
+        this.badges.add(badge);
+        badge.getUsers().add(this);
+    }
 }

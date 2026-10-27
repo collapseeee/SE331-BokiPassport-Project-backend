@@ -65,4 +65,12 @@ public class UserController {
         Long profileId = userAccount.getProfile().getId();
         return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.updateUser(profileId, userDTO)));
     }
+
+    @PatchMapping("/me/badges/{id}")
+    ResponseEntity<UserDTO> updateUserBadge(
+            @AuthenticationPrincipal UserAccount userAccount,
+            @PathVariable(name = "id") Long badgeId) {
+        Long id = userAccount.getProfile().getId();
+        return ResponseEntity.ok(LabMapper.INSTANCE.getUserDto(userService.updateUserBadge(id, badgeId)));
+    }
 }
