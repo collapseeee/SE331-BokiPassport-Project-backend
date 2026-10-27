@@ -1,5 +1,6 @@
 package se331.bokipassport.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,21 @@ public class CourseController {
     }
 
     @PostMapping
+    @RolesAllowed("ADMIN")
     ResponseEntity<CourseDTO> save(@RequestBody CourseDTO course) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getCourseDto(courseService.save(course)));
+    }
+
+    @PutMapping("/{id}")
+    @RolesAllowed("ADMIN")
+    ResponseEntity<CourseDTO> update(@RequestBody CourseDTO course, @PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(LabMapper.INSTANCE.getCourseDto(courseService.update(id, course)));
+    }
+
+    @DeleteMapping("/{id}")
+    @RolesAllowed("ADMIN")
+    ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
+        courseService.deleteById(id);
+        return ResponseEntity.status(204).build();
     }
 }

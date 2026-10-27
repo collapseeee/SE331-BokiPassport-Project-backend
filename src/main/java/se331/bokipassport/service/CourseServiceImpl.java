@@ -33,7 +33,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course save(CourseDTO course) {
         if (course.getLevel() == null || course.getLevel().getId() == null || levelDao.findById(course.getLevel().getId()) == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Level id is not found.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course level id is not found.");
         }
         Level level = levelDao.findById(course.getLevel().getId());
         Course output = Course.builder()
@@ -44,5 +44,29 @@ public class CourseServiceImpl implements CourseService {
                 .build();
 
         return courseDao.save(output);
+    }
+
+    @Transactional
+    @Override
+    public Course update(Long id, CourseDTO course) {
+        if (courseDao.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course level id is not found.");
+        }
+        Level level = levelDao.findById(course.getLevel().getId());
+        Course existedCourse = courseDao.findById(id);
+        if (course.getName() != null) existedCourse.setName(course.getName());
+        if (course.getDescription() != null) existedCourse.setDescription(course.getDescription());
+        if (course.getVideoUrl() != null) existedCourse.setVideo(course.getVideoUrl());
+        existedCourse.setLevel(level);
+        return courseDao.save(existedCourse);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Course course = courseDao.findById(id);
+        if (course == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The course with id " + id + " is not found.");
+        }
+        courseDao.deleteById(id);
     }
 }
