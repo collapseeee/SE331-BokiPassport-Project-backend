@@ -9,4 +9,6 @@ public interface CourseService {
     List<Course> findAll();
     Course findById(Long id);
     Course save(CourseDTO course);
+    Course update(Long id,CourseDTO course);
+    void deleteById(Long id);
 }
