@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import se331.bokipassport.dao.BadgeDao;
 import se331.bokipassport.dao.UserDao;
+import se331.bokipassport.entity.Badge;
 import se331.bokipassport.entity.User;
 import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserSearchOption;
@@ -19,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
     final UserDao userDao;
+    final BadgeDao badgeDao;
 
     @Override
     public Page<UserAccount> getUsers(Pageable pageable) {
@@ -81,6 +84,26 @@ public class UserServiceImpl implements UserService{
         }
         return userDao.saveUser(userAccount);
     }
+
+    @Override
+    @Transactional
+    public UserAccount updateUserBadge(Long id, Long badgeId) {
+        if (userDao.findUserAccountById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " is not found.");
+        }
+        if (badgeDao.findById(badgeId) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Badge with id " + badgeId + " is not found." );
+        }
+        Badge badge = badgeDao.findById(badgeId);
+        UserAccount user = userDao.findUserAccountById(id);
+        if (user.getProfile().getBadges().stream().anyMatch(b -> b.getId().equals(badgeId))) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User already earn badge id " + badgeId + ".");
+        }
+        user.getProfile().addBadge(badge);
+        badgeDao.save(badge);
+        return userDao.saveUser(user);
+    }
+
     public List<String> findDistinctProvinces() {
         return userDao.findDistinctProvinces().stream().map(User::getProvince).distinct().toList();
     }

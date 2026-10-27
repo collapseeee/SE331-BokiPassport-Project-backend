@@ -26,4 +26,9 @@ public class BadgeDaoImpl implements BadgeDao {
     public List<Badge> findByUserId(Long id) {
         return badgeRepository.findByUsers_Id(id);
     }
+
+    @Override
+    public void save(Badge badge) {
+        badgeRepository.save(badge);
+    }
 }

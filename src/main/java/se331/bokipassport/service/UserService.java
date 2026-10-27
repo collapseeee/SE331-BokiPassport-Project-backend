@@ -17,4 +17,5 @@ public interface UserService {
     UserAccount reactivateUser(Long id);
     List<String> findDistinctProvinces();
     UserAccount updateUser(Long id, UserDTO userDTO);
+    UserAccount updateUserBadge(Long id, Long badgeId);
 }
