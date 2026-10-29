@@ -48,6 +48,13 @@ public class AdminLevelController {
         benefitService.delete(benefitId);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/benefits")
+    ResponseEntity<Void> deleteBenefits(
+            @RequestBody List<Long> benefitIdList
+    ) {
+        benefitService.deleteAll(benefitIdList);
+        return ResponseEntity.noContent().build();
+    }
 
     /* Services */
     @PutMapping("/{levelId}/services")
@@ -62,6 +69,13 @@ public class AdminLevelController {
             @PathVariable(name = "serviceId") Long serviceId
     ) {
         serviceService.delete(serviceId);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/services")
+    ResponseEntity<Void> deleteServices(
+            @RequestBody List<Long> serviceIdList
+    ) {
+        serviceService.deleteAll(serviceIdList);
         return ResponseEntity.noContent().build();
     }
 }
