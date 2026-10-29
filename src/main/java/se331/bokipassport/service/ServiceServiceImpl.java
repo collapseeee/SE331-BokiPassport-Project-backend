@@ -85,6 +85,13 @@ public class ServiceServiceImpl implements ServiceService {
         serviceDao.delete(service);
     }
 
+    @Override
+    public void deleteAll(List<Long> ids) {
+        for (Long id : ids) {
+            this.delete(id);
+        }
+    }
+
     private Boolean isEmpty(String text) {
         return text == null || text.isEmpty();
     }

@@ -12,4 +12,5 @@ public interface BenefitService {
     List<Benefit> saveAll(Long levelId, List<BenefitDTO> benefitDTOs);
     Benefit create(Long levelId, BenefitDTO benefitDTO);
     void delete(Long id);
+    void deleteAll(List<Long> ids);
 }

@@ -90,6 +90,13 @@ public class BenefitServiceImpl implements BenefitService {
         benefitDao.delete(benefit);
     }
 
+    @Override
+    public void deleteAll(List<Long> ids) {
+        for (Long id : ids) {
+            this.delete(id);
+        }
+    }
+
     private boolean isEmpty(String string) {
         return  string == null || string.isEmpty();
     }
