@@ -50,7 +50,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          DB_HOST: db
+          DB_HOST: localhost
           DB_PORT: 5432
           DB_NAME: temp_db
           DB_USERNAME: postgres
