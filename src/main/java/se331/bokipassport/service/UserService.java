@@ -3,6 +3,7 @@ package se331.bokipassport.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import se331.bokipassport.entity.dto.UserDTO;
 import se331.bokipassport.entity.dto.UserSearchOption;
 import se331.bokipassport.security.user.UserAccount;
 
@@ -15,4 +16,6 @@ public interface UserService {
     UserAccount deactivateUser(Long id);
     UserAccount reactivateUser(Long id);
     List<String> findDistinctProvinces();
+    UserAccount updateUser(Long id, UserDTO userDTO);
+    UserAccount updateUserBadge(Long id, Long badgeId);
 }

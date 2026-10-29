@@ -15,7 +15,7 @@ jobs:
       db:
         image: postgres:18.6-alpine3.24
         env:
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: 123
           POSTGRES_DB: temp_db
         ports:
           - "5432:5432"
@@ -43,12 +43,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Copy application-local.yml
         run: |
-          echo "Before copying files"
-          ls -al src/main/resources
+          echo "Copy application-local.yml to /resources"
           mkdir -p src/main/resources
           echo "${{ secrets.MOCK_SUPABASE_YML }}" > src/main/resources/application-local.yml
-          echo "After copied files"
-          ls -al src/main/resources
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -57,6 +54,6 @@ jobs:
           DB_PORT: 5432
           DB_NAME: temp_db
           DB_USERNAME: postgres
-          DB_PASSWORD: password
+          DB_PASSWORD: 123
           JWT_SECRET: "mock_jwt_secret_for_code_analysis_only"
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=BokiPassport-Backend -Dsonar.projectName='BokiPassport-Backend'

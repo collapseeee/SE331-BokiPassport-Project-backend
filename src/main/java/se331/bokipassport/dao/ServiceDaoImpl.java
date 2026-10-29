@@ -16,4 +16,16 @@ public class ServiceDaoImpl implements ServiceDao {
     public List<Service> findAll() {
         return serviceRepository.findAll();
     }
+
+    @Override
+    public List<Service> findByLevelId(Long levelId) { return serviceRepository.findByLevel_Id(levelId); }
+
+    @Override
+    public Service findById(Long id) { return serviceRepository.findById(id).orElse(null); }
+
+    @Override
+    public Service save(Service service) { return serviceRepository.save(service); }
+
+    @Override
+    public void delete(Service service) { serviceRepository.delete(service); }
 }

@@ -21,4 +21,14 @@ public class CourseDaoImpl implements CourseDao {
     public Course findById(Long id) {
         return courseRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Course save(Course course) {
+        return courseRepository.save(course);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        courseRepository.deleteById(id);
+    }
 }

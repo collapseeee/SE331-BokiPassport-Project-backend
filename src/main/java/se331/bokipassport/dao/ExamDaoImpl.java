@@ -21,4 +21,9 @@ public class ExamDaoImpl implements ExamDao {
     public Exam findById(Long id) {
         return examRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Exam save(Exam exam) {
+        return examRepository.save(exam);
+    }
 }

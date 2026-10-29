@@ -1,9 +1,15 @@
 package se331.bokipassport.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import se331.bokipassport.dao.CourseDao;
+import se331.bokipassport.dao.LevelDao;
 import se331.bokipassport.entity.Course;
+import se331.bokipassport.entity.Level;
+import se331.bokipassport.entity.dto.CourseDTO;
 
 import java.util.List;
 
@@ -11,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
     final CourseDao courseDao;
+    final LevelDao levelDao;
 
     @Override
     public List<Course> findAll() {
@@ -20,5 +27,46 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course findById(Long id) {
         return courseDao.findById(id);
+    }
+
+    @Transactional
+    @Override
+    public Course save(CourseDTO course) {
+        if (course.getLevel() == null || course.getLevel().getId() == null || levelDao.findById(course.getLevel().getId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course level id is not found.");
+        }
+        Level level = levelDao.findById(course.getLevel().getId());
+        Course output = Course.builder()
+                .name(course.getName())
+                .description(course.getDescription())
+                .video(course.getVideoUrl())
+                .level(level)
+                .build();
+
+        return courseDao.save(output);
+    }
+
+    @Transactional
+    @Override
+    public Course update(Long id, CourseDTO course) {
+        if (courseDao.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Course level id is not found.");
+        }
+        Level level = levelDao.findById(course.getLevel().getId());
+        Course existedCourse = courseDao.findById(id);
+        if (course.getName() != null) existedCourse.setName(course.getName());
+        if (course.getDescription() != null) existedCourse.setDescription(course.getDescription());
+        if (course.getVideoUrl() != null) existedCourse.setVideo(course.getVideoUrl());
+        existedCourse.setLevel(level);
+        return courseDao.save(existedCourse);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Course course = courseDao.findById(id);
+        if (course == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The course with id " + id + " is not found.");
+        }
+        courseDao.deleteById(id);
     }
 }
