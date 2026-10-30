@@ -1,6 +1,7 @@
 package se331.bokipassport.dao;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import se331.bokipassport.entity.Benefit;
 import se331.bokipassport.repository.BenefitRepository;
@@ -14,7 +15,7 @@ public class BenefitDaoImpl implements BenefitDao {
 
     @Override
     public List<Benefit> findAll() {
-        return benefitRepository.findAll();
+        return benefitRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
