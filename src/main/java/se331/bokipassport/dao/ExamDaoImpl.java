@@ -1,6 +1,7 @@
 package se331.bokipassport.dao;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import se331.bokipassport.entity.Exam;
 import se331.bokipassport.repository.ExamRepository;
@@ -14,7 +15,7 @@ public class ExamDaoImpl implements ExamDao {
 
     @Override
     public List<Exam> findAll() {
-        return examRepository.findAll();
+        return examRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

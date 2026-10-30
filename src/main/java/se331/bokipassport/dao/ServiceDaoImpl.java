@@ -1,6 +1,7 @@
 package se331.bokipassport.dao;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import se331.bokipassport.entity.Service;
 import se331.bokipassport.repository.ServiceRepository;
@@ -14,7 +15,7 @@ public class ServiceDaoImpl implements ServiceDao {
 
     @Override
     public List<Service> findAll() {
-        return serviceRepository.findAll();
+        return serviceRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

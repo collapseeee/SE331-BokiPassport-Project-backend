@@ -54,4 +54,11 @@ public class AdminExamController {
         questionService.delete(questionId);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/questions")
+    ResponseEntity<Void> deleteQuestions(
+            @RequestBody List<Long> questionIdList
+    ) {
+        questionService.deleteByIds(questionIdList);
+        return ResponseEntity.noContent().build();
+    }
 }
