@@ -52,7 +52,7 @@ public class AdminLevelController {
     ResponseEntity<Void> deleteBenefits(
             @RequestBody List<Long> benefitIdList
     ) {
-        benefitService.deleteAll(benefitIdList);
+        benefitService.deleteByIds(benefitIdList);
         return ResponseEntity.noContent().build();
     }
 
@@ -75,7 +75,7 @@ public class AdminLevelController {
     ResponseEntity<Void> deleteServices(
             @RequestBody List<Long> serviceIdList
     ) {
-        serviceService.deleteAll(serviceIdList);
+        serviceService.deleteByIds(serviceIdList);
         return ResponseEntity.noContent().build();
     }
 }

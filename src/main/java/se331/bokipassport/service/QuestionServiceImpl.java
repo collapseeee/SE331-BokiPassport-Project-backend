@@ -130,7 +130,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public void deleteAll(List<Long> ids) {
+    public void deleteByIds(List<Long> ids) {
         for (Long id : ids) {
             this.delete(id);
         }

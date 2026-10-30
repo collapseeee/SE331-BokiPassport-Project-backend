@@ -58,7 +58,7 @@ public class AdminExamController {
     ResponseEntity<Void> deleteQuestions(
             @RequestBody List<Long> questionIdList
     ) {
-        questionService.deleteAll(questionIdList);
+        questionService.deleteByIds(questionIdList);
         return ResponseEntity.noContent().build();
     }
 }
