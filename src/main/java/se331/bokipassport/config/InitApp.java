@@ -627,7 +627,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .build());
         userAccountRepository.save(UserAccount.builder()
                 .username("admin")
-                .password(encoder.encode("123"))
+                .password(encoder.encode("953331@SE67Admin"))
                 .profile(userAdmin)
                 .enabled(true)
                 .roles(List.of(Role.ROLE_ADMIN, Role.ROLE_USER))
