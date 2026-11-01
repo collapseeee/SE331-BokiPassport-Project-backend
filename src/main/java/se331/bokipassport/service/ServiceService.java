@@ -12,4 +12,5 @@ public interface ServiceService {
     Service save(Long serviceId, ServiceDTO serviceDTO);
     List<Service> saveAll(Long levelId, List<ServiceDTO> serviceDTOList);
     void delete(Long id);
+    void deleteByIds(List<Long> ids);
 }

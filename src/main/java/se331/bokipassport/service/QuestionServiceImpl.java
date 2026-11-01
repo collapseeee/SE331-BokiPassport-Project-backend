@@ -79,16 +79,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        Question question = questionDao.findQuestionById(id);
-        if (question == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
-        }
-        questionDao.delete(question);
-    }
-
-    @Override
-    @Transactional
     public Question create(Long examId, QuestionDTO questionDTO) {
         Exam exam = examDao.findById(examId);
         if (exam == null) {
@@ -126,6 +116,24 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
         return savedQuestions;
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Question question = questionDao.findQuestionById(id);
+        if (question == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Question with id " + id + " not found");
+        }
+        questionDao.delete(question);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByIds(List<Long> ids) {
+        for (Long id : ids) {
+            this.delete(id);
+        }
     }
 
     /**

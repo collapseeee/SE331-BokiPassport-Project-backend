@@ -1,6 +1,7 @@
 package se331.bokipassport.dao;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import se331.bokipassport.entity.Level;
 import se331.bokipassport.repository.LevelRepository;
@@ -14,7 +15,7 @@ public class LevelDaoImpl implements LevelDao {
 
     @Override
     public List<Level> findAll() {
-        return levelRepository.findAll();
+        return levelRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

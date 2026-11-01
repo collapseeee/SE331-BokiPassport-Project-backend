@@ -12,4 +12,5 @@ public interface QuestionService {
     List<Question> saveAll(Long examId, List<QuestionDTO> questionDTO);
     Question create(Long examId, QuestionDTO questionDTO);
     void delete(Long id);
+    void deleteByIds(List<Long> ids);
 }

@@ -1,6 +1,7 @@
 package se331.bokipassport.dao;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import se331.bokipassport.entity.Badge;
 import se331.bokipassport.repository.BadgeRepository;
@@ -14,7 +15,7 @@ public class BadgeDaoImpl implements BadgeDao {
 
     @Override
     public List<Badge> findAll() {
-        return badgeRepository.findAll();
+        return badgeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
