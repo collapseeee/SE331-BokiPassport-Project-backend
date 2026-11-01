@@ -1,8 +1,8 @@
 package se331.bokipassport.controller;
 
-import jakarta.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se331.bokipassport.entity.dto.CourseDTO;
 import se331.bokipassport.service.CourseService;
@@ -27,19 +27,19 @@ public class CourseController {
     }
 
     @PostMapping
-    @RolesAllowed("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<CourseDTO> save(@RequestBody CourseDTO course) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getCourseDto(courseService.save(course)));
     }
 
     @PutMapping("/{id}")
-    @RolesAllowed("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<CourseDTO> update(@RequestBody CourseDTO course, @PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(LabMapper.INSTANCE.getCourseDto(courseService.update(id, course)));
     }
 
     @DeleteMapping("/{id}")
-    @RolesAllowed("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
         courseService.deleteById(id);
         return ResponseEntity.status(204).build();
