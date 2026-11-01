@@ -3,14 +3,18 @@ services:
     image: postgres:18-alpine3.24
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: bokipassportdb
+      POSTGRES_DB: bokipassport
+    ports:
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg-isready -U postgres -d bokipassportdb"]
+      test:
+        ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "postgres", "-d", "bokipassport"]
+      start_period: 60s
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     restart: unless-stopped
 
   adminer:
@@ -26,7 +30,7 @@ services:
     env_file: .env
     environment:
       SPRING_PROFILES_ACTIVE: DB
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/%{DB_NAME}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bokipassport
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:

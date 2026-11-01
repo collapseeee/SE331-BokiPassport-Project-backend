@@ -1,9 +1,11 @@
 package se331.bokipassport.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import se331.bokipassport.security.user.Role;
 
 import java.util.List;
 
@@ -17,8 +19,11 @@ public class UserDTO {
     String lastName;
     String province;
     String image;
+    String username;
+    @JsonProperty("isActive")
+    Boolean enabled;
 
-    List<UserOwnExamHistoryDTO> userExamHistories;
-    List<UserOwnBadgeDTO> badges;
-    List<UserOwnLevelDTO> levels;
+    List<Role> roles;
+    List<BadgeDTO> badges;
+    List<LevelDTO> levels;
 }

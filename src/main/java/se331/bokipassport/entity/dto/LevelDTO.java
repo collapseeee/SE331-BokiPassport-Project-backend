@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserOwnLevelDTO {
+public class LevelDTO {
     Long id;
     String name;
+    String description;
+    Double passCriteria;
 }
